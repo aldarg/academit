@@ -16,15 +16,18 @@ namespace Academit.DargeevAleksandr
             set;
         }
 
+        public double Length
+        {
+            get
+            {
+                return To - From;
+            }
+        }
+
         public Range(double from, double to)
         {
             From = from;
             To = to;
-        }
-
-        public double GetLength()
-        {
-            return To - From;
         }
 
         public bool IsInside(double x)
@@ -34,16 +37,16 @@ namespace Academit.DargeevAleksandr
 
         public Range GetIntersection(Range interval)
         {
-            if (From < interval.To && To > interval.From)
+            if (From > interval.To || To < interval.From)
             {
-                double newFrom = (From > interval.From) ? From : interval.From;
-                double newTo = (To > interval.To) ? interval.To : To;
-
-                return new Range(newFrom, newTo);
+                return null;
             }
             else
             {
-                return null;
+                double newFrom = Math.Max(From, interval.From);
+                double newTo = Math.Min(To, interval.To);
+
+                return new Range(newFrom, newTo);
             }
         }
 
@@ -55,8 +58,8 @@ namespace Academit.DargeevAleksandr
             }
             else
             {
-                double newFrom = (From > interval.From) ? interval.From : From;
-                double newTo = (To > interval.To) ? To : interval.To;
+                double newFrom = Math.Min(From, interval.From);
+                double newTo = Math.Max(To, interval.To);
 
                 return new Range[] { new Range(newFrom, newTo) };
             }
@@ -64,7 +67,15 @@ namespace Academit.DargeevAleksandr
 
         public Range[] GetDifference(Range interval)
         {
-            if (From < interval.To && To > interval.From)
+            if (From > interval.To || To < interval.From)
+            {
+                return new Range[] { new Range(From, To) };
+            }
+            else if (From == interval.From && To == interval.To)
+            {
+                return new Range[] { new Range(0, 0) };
+            }
+            else
             {
                 if (From > interval.From && To > interval.To)
                 {
@@ -78,10 +89,6 @@ namespace Academit.DargeevAleksandr
                 {
                     return new Range[] { new Range(From, interval.From), new Range(interval.To, To) };
                 }
-            }
-            else
-            {
-                return new Range[] { new Range(From, To) };
             }
         }
     }
