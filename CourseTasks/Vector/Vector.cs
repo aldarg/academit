@@ -22,35 +22,21 @@ namespace Vector
 
         public Vector(Vector original)
         {
-            if (original == null)
-            {
-                Components = null;
-            }
-            else
-            {
-                Components = new double[original.GetSize()];
+            Components = new double[original.GetSize()];
 
-                for (int i = 0; i < GetSize(); i++)
-                {
-                    Components[i] = original.Components[i];
-                }
+            for (int i = 0; i < GetSize(); i++)
+            {
+                Components[i] = original.Components[i];
             }
         }
 
         public Vector(double[] a)
         {
-            if (a == null)
-            {
-                Components = null;
-            }
-            else
-            {
-                Components = new double[a.Length];
+            Components = new double[a.Length];
 
-                for (int i = 0; i < GetSize(); i++)
-                {
-                    Components[i] = a[i];
-                }
+            for (int i = 0; i < GetSize(); i++)
+            {
+                Components[i] = a[i];
             }
         }
 
@@ -110,11 +96,9 @@ namespace Vector
             }
         }
 
-        public void Multiply(int scalar)
+        public void Multiply(double scalar)
         {
-            int n = GetSize();
-
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < GetSize(); i++)
             {
                 Components[i] *= scalar;
             }
@@ -180,6 +164,59 @@ namespace Vector
             }
 
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 0;
+
+            foreach (double x in Components)
+            {
+                hashCode += x.GetHashCode();
+            }
+
+            return hashCode;
+        }
+
+        public static Vector GetSum(Vector vector1, Vector vector2)
+        {
+            int n1 = vector1.GetSize();
+            int n2 = vector2.GetSize();
+
+            int n = Math.Max(n1, n2);
+            Vector result = new Vector(n);
+
+            for (int i = 0; i < n; i++)
+            {
+                result.Components[i] += (i < n1) ? vector1.Components[i] : 0;
+                result.Components[i] += (i < n2) ? vector2.Components[i] : 0;
+            }
+
+            return result;
+        }
+
+        public static Vector GetDifference(Vector vector1, Vector vector2)
+        {
+            Vector temp = new Vector(vector2);
+            temp.Reverse();
+
+            return GetSum(vector1, temp);
+        }
+
+        public static double GetScalarProduct(Vector vector1, Vector vector2)
+        {
+            int n1 = vector1.GetSize();
+            int n2 = vector2.GetSize();
+
+            double result = 0;
+            int n = Math.Max(n1, n2);
+
+            for (int i = 0; i < n; i++)
+            {
+                result += ((i < n1) ? vector1.Components[i] : 0) * ((i < n2) ? vector2.Components[i] : 0);
+            }
+
+            return result;
         }
     }
 }
