@@ -37,7 +37,7 @@ namespace Academit.DargeevAleksandr
 
         public Range GetIntersection(Range interval)
         {
-            if (From > interval.To || To < interval.From)
+            if (From >= interval.To || To <= interval.From)
             {
                 return null;
             }
@@ -67,13 +67,13 @@ namespace Academit.DargeevAleksandr
 
         public Range[] GetDifference(Range interval)
         {
-            if (From > interval.To || To < interval.From)
+            if (From >= interval.To || To <= interval.From)
             {
                 return new Range[] { new Range(From, To) };
             }
-            else if (From == interval.From && To == interval.To)
+            else if (From >= interval.From && To <= interval.To)
             {
-                return new Range[] { new Range(0, 0) };
+                return new Range[] { };
             }
             else
             {
