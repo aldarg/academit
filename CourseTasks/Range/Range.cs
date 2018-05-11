@@ -77,11 +77,11 @@ namespace Academit.DargeevAleksandr
             }
             else
             {
-                if (From > interval.From && To > interval.To)
+                if (From >= interval.From && To > interval.To)
                 {
                     return new Range[] { new Range(interval.To, To) };
                 }
-                else if (From < interval.From && To < interval.To)
+                else if (From < interval.From && To <= interval.To)
                 {
                     return new Range[] { new Range(From, interval.From) };
                 }
