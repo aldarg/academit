@@ -18,26 +18,33 @@ namespace Academits.DargeevAleksandr
 
         public Rectangle(double a, double b)
         {
+            double epsilon = 1.0e-10;
+
+            if (a <= epsilon || b <= epsilon)
+            {
+                throw new ArgumentException("Все стороны прямоугольника должны быть больше нуля.");
+            }
+
             SideA = a;
             SideB = b;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
             return SideA;
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
             return SideB;
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return SideA * SideB;
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
             return 2 * (SideA + SideB);
         }
@@ -61,7 +68,9 @@ namespace Academits.DargeevAleksandr
 
             Rectangle rectangle = (Rectangle)obj;
 
-            if (rectangle.SideA != SideA || rectangle.SideB != SideB)
+            double epsilon = 1.0e-10;
+
+            if (Math.Abs(rectangle.SideA - SideA) > epsilon || Math.Abs(rectangle.SideB - SideB) > epsilon)
             {
                 return false;
             }

@@ -2,15 +2,17 @@
 
 namespace Academits.DargeevAleksandr
 {
-    class PerimeterComparer : IComparer<Shapes>
+    class PerimeterComparer : IComparer<IShape>
     {
-        public int Compare(Shapes shape1, Shapes shape2)
+        public int Compare(IShape shape1, IShape shape2)
         {
-            if (shape1.GetPerimeter() > shape2.GetPerimeter())
+            double epsilon = 1.0e-10;
+
+            if (shape1.GetPerimeter() - shape2.GetPerimeter() > epsilon)
             {
                 return -1;
             }
-            else if (shape1.GetPerimeter() < shape2.GetPerimeter())
+            else if (shape1.GetPerimeter() - shape2.GetPerimeter() < -epsilon)
             {
                 return 1;
             }

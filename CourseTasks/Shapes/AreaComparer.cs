@@ -2,15 +2,17 @@
 
 namespace Academits.DargeevAleksandr
 {
-    class AreaComparer : IComparer<Shapes>
+    class AreaComparer : IComparer<IShape>
     {
-        public int Compare(Shapes shape1, Shapes shape2)
+        public int Compare(IShape shape1, IShape shape2)
         {
-            if (shape1.GetArea() > shape2.GetArea())
+            double epsilon = 1.0e-10;
+
+            if (shape1.GetArea() - shape2.GetArea() > epsilon)
             {
                 return -1;
             }
-            else if (shape1.GetArea() < shape2.GetArea())
+            else if (shape1.GetArea() - shape2.GetArea() < -epsilon)
             {
                 return 1;
             }

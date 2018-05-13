@@ -4,14 +4,14 @@ namespace Academits.DargeevAleksandr
 {
     class ShapesHomework
     {
-        public static Shapes GetMaxAreaShape(Shapes[] list, int place)
+        public static IShape GetShapeByAreaRating(IShape[] list, int place)
         {
             Array.Sort(list, new AreaComparer());
 
             return list[place - 1];
         }
 
-        public static Shapes GetMaxPerimeterShape(Shapes[] list, int place)
+        public static IShape GetShapeByPerimeterRating(IShape[] list, int place)
         {
             Array.Sort(list, new PerimeterComparer());
 
@@ -20,7 +20,7 @@ namespace Academits.DargeevAleksandr
 
         static void Main(string[] args)
         {
-            Shapes[] shapesList = new Shapes[]
+            IShape[] shapesList = new IShape[]
             {
                 new Square(5),
                 new Rectangle(3, 4),
@@ -32,21 +32,19 @@ namespace Academits.DargeevAleksandr
                 new Triangle(0, 0, 3, 0, 0, 4),
             };
 
-            foreach (Shapes a in shapesList)
+            foreach (IShape a in shapesList)
             {
                 Console.WriteLine(a);
                 Console.WriteLine(a.Equals(shapesList[0]));
             }
 
             Square test1 = new Square(5);
-            Shapes test2 = new Circle(5);
+            IShape test2 = new Circle(5);
 
             Console.WriteLine(test1.Equals(test2));
 
-            //TODO переназвать методы
-            //TODO задать вопрос про изменение массива - нужно новый создавать?
-            Console.WriteLine(GetMaxAreaShape(shapesList, 1));
-            Console.WriteLine(GetMaxPerimeterShape(shapesList, 2));
+            Console.WriteLine(GetShapeByAreaRating(shapesList, 1));
+            Console.WriteLine(GetShapeByPerimeterRating(shapesList, 2));
         }
     }
 }

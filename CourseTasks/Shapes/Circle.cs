@@ -12,25 +12,32 @@ namespace Academits.DargeevAleksandr
 
         public Circle(double radius)
         {
+            double epsilon = 1.0e-10;
+
+            if (radius <= epsilon)
+            {
+                throw new ArgumentException("Радиус круга должен быть больше нуля.");
+            }
+
             Radius = radius;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
             return 2 * Radius;
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
             return 2 * Radius;
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return Math.PI * Radius * Radius;
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
             return 2 * Math.PI * Radius;
         }
@@ -54,7 +61,9 @@ namespace Academits.DargeevAleksandr
 
             Circle circle = (Circle)obj;
 
-            if (circle.Radius != Radius)
+            double epsilon = 1.0e-10;
+
+            if (Math.Abs(circle.Radius - Radius) > epsilon)
             {
                 return false;
             }

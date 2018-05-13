@@ -12,25 +12,32 @@ namespace Academits.DargeevAleksandr
 
         public Square(double side)
         {
+            double epsilon = 1.0e-10;
+
+            if (side <= epsilon)
+            {
+                throw new ArgumentException("Сторона квадрата должна быть больше нуля.");
+            }
+
             Side = side;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
             return Side;
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
             return Side;
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return Side * Side;
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
             return 4 * Side;
         }
@@ -54,7 +61,9 @@ namespace Academits.DargeevAleksandr
 
             Square square = (Square)obj;
 
-            if (square.Side != Side)
+            double epsilon = 1.0e-10;
+
+            if (Math.Abs(square.Side - Side) > epsilon)
             {
                 return false;
             }

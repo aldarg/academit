@@ -42,6 +42,13 @@ namespace Academits.DargeevAleksandr
 
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
         {
+            double epsilon = 1.0e-10;
+            bool lineCheck = Math.Abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) <= epsilon;
+            if (lineCheck)
+            {
+                throw new ArgumentException("Вершины треугольника не могут лежать на одной прямой.");
+            }
+
             X1 = x1;
             Y1 = y1;
             X2 = x2;
@@ -50,28 +57,28 @@ namespace Academits.DargeevAleksandr
             Y3 = y3;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
-            return Math.Max(X1, Math.Max(X2, X3)) - Math.Min(X1, Math.Max(X2, X3));
+            return Math.Max(X1, Math.Max(X2, X3)) - Math.Min(X1, Math.Min(X2, X3));
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
-            return Math.Max(Y1, Math.Max(Y2, Y3)) - Math.Min(Y1, Math.Max(Y2, Y3));
+            return Math.Max(Y1, Math.Max(Y2, Y3)) - Math.Min(Y1, Math.Min(Y2, Y3));
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return Math.Abs(((X1 - X3) * (Y2 - Y3) - (X2 - X3) * (Y1 - Y3)) / 2);
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
-            double x1x2 = Math.Sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1));
-            double x1x3 = Math.Sqrt((X3 - X1) * (X3 - X1) + (Y3 - Y1) * (Y3 - Y1));
-            double x3x2 = Math.Sqrt((X2 - X3) * (X2 - X3) + (Y2 - Y3) * (Y2 - Y3));
+            double side12 = Math.Sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1));
+            double side13 = Math.Sqrt((X3 - X1) * (X3 - X1) + (Y3 - Y1) * (Y3 - Y1));
+            double side23 = Math.Sqrt((X2 - X3) * (X2 - X3) + (Y2 - Y3) * (Y2 - Y3));
 
-            return x1x2 + x1x3 + x3x2;
+            return side12 + side13 + side23;
         }
 
         public override string ToString()
@@ -93,7 +100,16 @@ namespace Academits.DargeevAleksandr
 
             Triangle triangle = (Triangle)obj;
 
-            if (triangle.X1 != X1 || triangle.X2 != X2 || triangle.X3 != X3 || triangle.Y1 != Y1 || triangle.Y2 != Y2 || triangle.Y3 != Y3)
+            double epsilon = 1.0e-10;
+
+            bool x1Check = Math.Abs(triangle.X1 - X1) > epsilon;
+            bool x2Check = Math.Abs(triangle.X2 - X2) > epsilon;
+            bool x3Check = Math.Abs(triangle.X3 - X3) > epsilon;
+            bool y1Check = Math.Abs(triangle.Y1 - Y1) > epsilon;
+            bool y2Check = Math.Abs(triangle.Y2 - Y2) > epsilon;
+            bool y3Check = Math.Abs(triangle.Y3 - Y3) > epsilon;
+
+            if (x1Check || x2Check || x3Check || y1Check || y2Check || y3Check)
             {
                 return false;
             }
