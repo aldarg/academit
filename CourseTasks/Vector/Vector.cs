@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Vector
 {
@@ -6,15 +7,23 @@ namespace Vector
     {
         public double[] Components
         {
-            get;
+            private get;
             set;
+        }
+
+        public int Size
+        {
+            get
+            {
+                return Components.Length;
+            }
         }
 
         public Vector(int n)
         {
             if (n <= 0)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
             Components = new double[n];
@@ -22,83 +31,94 @@ namespace Vector
 
         public Vector(Vector original)
         {
-            Components = new double[original.GetSize()];
+            Components = new double[original.Size];
 
-            for (int i = 0; i < GetSize(); i++)
-            {
-                Components[i] = original.Components[i];
-            }
+            Array.Copy(original.Components, Components, Size);
         }
 
         public Vector(double[] a)
         {
+            if (a.Length == 0)
+            {
+                throw new ArgumentException("Размерность вектора должна быть больше нуля.");
+            }
+
             Components = new double[a.Length];
 
-            for (int i = 0; i < GetSize(); i++)
-            {
-                Components[i] = a[i];
-            }
+            Array.Copy(a, Components, Size);
         }
 
         public Vector(int n, double[] a)
         {
             if (n <= 0)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
             Components = new double[n];
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < Math.Min(n, a.Length); i++)
             {
-                Components[i] = (i < a.Length) ? a[i] : 0;
+                Components[i] = a[i];
             }
-        }
-
-        public int GetSize()
-        {
-            return Components.Length;
         }
 
         public override string ToString()
         {
-            string result = "{";
+            StringBuilder result = new StringBuilder();
 
-            int n = GetSize();
+            result.Append("{");
 
-            for (int i = 0; i < n; i++)
+            int n = Size;
+
+            for (int i = 0; i < n - 1; i++)
             {
-                result += (i < n - 1) ? String.Format(" {0},", Components[i]) : String.Format(" {0}{1}", Components[i], "}");
+                result.Append(string.Format(" {0},", Components[i]));
             }
 
-            return result;
+            result.Append(string.Format(" {0} }}", Components[n - 1]));
+            return result.ToString();
         }
 
         public void Add(Vector vector)
         {
-            int n1 = GetSize();
-            int n2 = vector.GetSize();
+            int n1 = Size;
+            int n2 = vector.Size;
 
-            for (int i = 0; i < n1; i++)
+            if (n1 < n2)
             {
-                Components[i] += (i < n2) ? vector.Components[i] : 0;
+                double[] temp = Components;
+                Array.Resize(ref temp, n2);
+                Components = temp;
+            }
+
+            for (int i = 0; i < n2; i++)
+            {
+                Components[i] += vector.Components[i];
             }
         }
 
         public void Subtract(Vector vector)
         {
-            int n1 = GetSize();
-            int n2 = vector.GetSize();
+            int n1 = Size;
+            int n2 = vector.Size;
 
-            for (int i = 0; i < n1; i++)
+            if (n1 < n2)
             {
-                Components[i] -= (i < n2) ? vector.Components[i] : 0;
+                double[] temp = Components;
+                Array.Resize(ref temp, n2);
+                Components = temp;
+            }
+
+            for (int i = 0; i < n2; i++)
+            {
+                Components[i] -= vector.Components[i];
             }
         }
 
         public void Multiply(double scalar)
         {
-            for (int i = 0; i < GetSize(); i++)
+            for (int i = 0; i < Size; i++)
             {
                 Components[i] *= scalar;
             }
@@ -113,7 +133,7 @@ namespace Vector
         {
             double result = 0;
 
-            for (int i = 0; i < GetSize(); i++)
+            for (int i = 0; i < Size; i++)
             {
                 result += Math.Pow(Components[i], 2);
             }
@@ -123,9 +143,9 @@ namespace Vector
 
         public void SetByIndex(int index, double x)
         {
-            if (index < 0 || index >= GetSize())
+            if (index < 0 || index >= Size)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("SetByIndex: некорректный параметр индекса.");
             }
 
             Components[index] = x;
@@ -133,9 +153,9 @@ namespace Vector
 
         public double GetByIndex(int index)
         {
-            if (index < 0 || index >= GetSize())
+            if (index < 0 || index >= Size)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("SetByIndex: некорректный параметр индекса.");
             }
 
             return Components[index];
@@ -150,12 +170,12 @@ namespace Vector
 
             Vector vector = (Vector)obj;
 
-            if (GetSize() != vector.GetSize())
+            if (Size != vector.Size)
             {
                 return false;
             }
 
-            for (int i = 0; i < GetSize(); i++)
+            for (int i = 0; i < Size; i++)
             {
                 if (Components[i] != vector.Components[i])
                 {
@@ -180,40 +200,28 @@ namespace Vector
 
         public static Vector GetSum(Vector vector1, Vector vector2)
         {
-            int n1 = vector1.GetSize();
-            int n2 = vector2.GetSize();
-
-            int n = Math.Max(n1, n2);
-            Vector result = new Vector(n);
-
-            for (int i = 0; i < n; i++)
-            {
-                result.Components[i] += (i < n1) ? vector1.Components[i] : 0;
-                result.Components[i] += (i < n2) ? vector2.Components[i] : 0;
-            }
+            Vector result = new Vector(vector1);
+            result.Add(vector2);
 
             return result;
         }
 
         public static Vector GetDifference(Vector vector1, Vector vector2)
         {
-            Vector temp = new Vector(vector2);
-            temp.Reverse();
+            Vector result = new Vector(vector1);
+            result.Subtract(vector2);
 
-            return GetSum(vector1, temp);
+            return result;
         }
 
         public static double GetScalarProduct(Vector vector1, Vector vector2)
         {
-            int n1 = vector1.GetSize();
-            int n2 = vector2.GetSize();
-
             double result = 0;
-            int n = Math.Max(n1, n2);
+            int n = Math.Min(vector1.Size, vector2.Size);
 
             for (int i = 0; i < n; i++)
             {
-                result += ((i < n1) ? vector1.Components[i] : 0) * ((i < n2) ? vector2.Components[i] : 0);
+                result += vector1.Components[i] * vector2.Components[i];
             }
 
             return result;

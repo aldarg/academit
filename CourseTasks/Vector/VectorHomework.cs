@@ -10,6 +10,14 @@ namespace Vector
             Vector test2 = new Vector(new double[] { 1, 2, 3, 4 });
             Vector test3 = new Vector(test2);
             Vector test4 = new Vector(6, new double[] { 7, 8, 5, 4 });
+            Vector test5 = new Vector(new double[] { 1, 2, 3, 4, 5, 6, 7 });
+
+            Console.WriteLine(test2);
+            test2.Add(test5);
+            Console.WriteLine(test2);
+            Console.WriteLine(test5);
+
+            return;
 
             Console.WriteLine("Проверяем конструкторы и метод ToString()");
             Console.WriteLine($"Вектор1 = {test1}");
@@ -19,7 +27,7 @@ namespace Vector
 
             Console.WriteLine();
 
-            Console.WriteLine($"Размерность test4 = {test4.GetSize()}");
+            Console.WriteLine($"Размерность test4 = {test4.Size}");
 
             Console.WriteLine();
 

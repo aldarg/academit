@@ -2,7 +2,7 @@
 
 namespace Academits.DargeevAleksandr
 {
-    public class Circle : Shapes
+    public class Circle : IShape
     {
         double Radius
         {

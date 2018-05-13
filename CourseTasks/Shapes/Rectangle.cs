@@ -2,7 +2,7 @@
 
 namespace Academits.DargeevAleksandr
 {
-    public class Rectangle : Shapes
+    public class Rectangle : IShape
     {
         double SideA
         {

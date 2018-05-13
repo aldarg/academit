@@ -2,7 +2,7 @@
 
 namespace Academits.DargeevAleksandr
 {
-    public class Triangle : Shapes
+    public class Triangle : IShape
     {
         double X1
         {

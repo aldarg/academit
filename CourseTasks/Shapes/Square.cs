@@ -2,7 +2,7 @@
 
 namespace Academits.DargeevAleksandr
 {
-    public class Square : Shapes
+    public class Square : IShape
     {
         double Side
         {
