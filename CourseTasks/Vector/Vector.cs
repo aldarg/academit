@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Vector
+namespace Academits.DargeevAleksandr
 {
     class Vector
     {
