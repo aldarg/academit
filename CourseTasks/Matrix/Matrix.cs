@@ -7,8 +7,14 @@ namespace Academits.DargeevAleksandr
     {
         public Vector[] Rows
         {
-            private get;
-            set;
+            private get
+            {
+                return Rows;
+            }
+            set
+            {
+                if ()
+            }
         }
 
         public Matrix(int n, int m)

@@ -17,6 +17,8 @@ namespace Academits.DargeevAleksandr
                 {
                     throw new ArgumentException("Некорректный параметр - массив длины 0.");
                 }
+
+                Components = value;
             }
         }
 
