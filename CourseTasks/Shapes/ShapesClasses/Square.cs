@@ -4,7 +4,7 @@ namespace Academits.DargeevAleksandr
 {
     public class Square : IShape
     {
-        double Side
+        public double Side
         {
             get;
             set;
@@ -44,7 +44,7 @@ namespace Academits.DargeevAleksandr
 
         public override string ToString()
         {
-            return String.Format($"Квадрат со стороной {Side}.");
+            return ($"Квадрат со стороной {Side}.");
         }
 
         public override int GetHashCode()
@@ -54,6 +54,11 @@ namespace Academits.DargeevAleksandr
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
@@ -61,14 +66,7 @@ namespace Academits.DargeevAleksandr
 
             Square square = (Square)obj;
 
-            double epsilon = 1.0e-10;
-
-            if (Math.Abs(square.Side - Side) > epsilon)
-            {
-                return false;
-            }
-
-            return true;
+            return square.Side == Side;
         }
     }
 }

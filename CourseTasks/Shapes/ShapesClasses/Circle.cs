@@ -4,7 +4,7 @@ namespace Academits.DargeevAleksandr
 {
     public class Circle : IShape
     {
-        double Radius
+        public double Radius
         {
             get;
             set;
@@ -44,7 +44,7 @@ namespace Academits.DargeevAleksandr
 
         public override string ToString()
         {
-            return String.Format($"Круг с радиусом {Radius}.");
+            return ($"Круг с радиусом {Radius}.");
         }
 
         public override int GetHashCode()
@@ -54,6 +54,11 @@ namespace Academits.DargeevAleksandr
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
@@ -61,14 +66,7 @@ namespace Academits.DargeevAleksandr
 
             Circle circle = (Circle)obj;
 
-            double epsilon = 1.0e-10;
-
-            if (Math.Abs(circle.Radius - Radius) > epsilon)
-            {
-                return false;
-            }
-
-            return true;
+            return circle.Radius == Radius;
         }
     }
 }

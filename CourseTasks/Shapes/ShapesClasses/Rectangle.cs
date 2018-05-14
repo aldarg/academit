@@ -4,13 +4,13 @@ namespace Academits.DargeevAleksandr
 {
     public class Rectangle : IShape
     {
-        double SideA
+        public double SideA
         {
             get;
             set;
         }
 
-        double SideB
+        public double SideB
         {
             get;
             set;
@@ -51,7 +51,7 @@ namespace Academits.DargeevAleksandr
 
         public override string ToString()
         {
-            return String.Format($"Прямоугольник со сторонами {SideA} и {SideB}.");
+            return ($"Прямоугольник со сторонами {SideA} и {SideB}.");
         }
 
         public override int GetHashCode()
@@ -61,6 +61,11 @@ namespace Academits.DargeevAleksandr
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
@@ -68,14 +73,7 @@ namespace Academits.DargeevAleksandr
 
             Rectangle rectangle = (Rectangle)obj;
 
-            double epsilon = 1.0e-10;
-
-            if (Math.Abs(rectangle.SideA - SideA) > epsilon || Math.Abs(rectangle.SideB - SideB) > epsilon)
-            {
-                return false;
-            }
-
-            return true;
+            return rectangle.SideA == SideA && rectangle.SideB == SideB;
         }
     }
 }

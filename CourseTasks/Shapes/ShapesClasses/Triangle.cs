@@ -4,37 +4,37 @@ namespace Academits.DargeevAleksandr
 {
     public class Triangle : IShape
     {
-        double X1
+        public double X1
         {
             get;
             set;
         }
 
-        double Y1
+        public double Y1
         {
             get;
             set;
         }
 
-        double X2
+        public double X2
         {
             get;
             set;
         }
 
-        double Y2
+        public double Y2
         {
             get;
             set;
         }
 
-        double X3
+        public double X3
         {
             get;
             set;
         }
 
-        double Y3
+        public double Y3
         {
             get;
             set;
@@ -72,18 +72,23 @@ namespace Academits.DargeevAleksandr
             return Math.Abs(((X1 - X3) * (Y2 - Y3) - (X2 - X3) * (Y1 - Y3)) / 2);
         }
 
+        private double GetSideLength(double x1, double y1, double x2, double y2)
+        {
+            return Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        }
+
         public double GetPerimeter()
         {
-            double side12 = Math.Sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1));
-            double side13 = Math.Sqrt((X3 - X1) * (X3 - X1) + (Y3 - Y1) * (Y3 - Y1));
-            double side23 = Math.Sqrt((X2 - X3) * (X2 - X3) + (Y2 - Y3) * (Y2 - Y3));
+            double side12 = GetSideLength(X1, Y1, X2, Y2);
+            double side13 = GetSideLength(X1, Y1, X3, Y3);
+            double side23 = GetSideLength(X2, Y2, X3, Y3);
 
             return side12 + side13 + side23;
         }
 
         public override string ToString()
         {
-            return String.Format($"Треугольник с координатами углов: ({X1}; {Y1}), ({X2}; {Y2}), ({X3}; {Y3}).");
+            return ($"Треугольник с координатами углов: ({X1}; {Y1}), ({X2}; {Y2}), ({X3}; {Y3}).");
         }
 
         public override int GetHashCode()
@@ -93,6 +98,11 @@ namespace Academits.DargeevAleksandr
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
@@ -100,21 +110,7 @@ namespace Academits.DargeevAleksandr
 
             Triangle triangle = (Triangle)obj;
 
-            double epsilon = 1.0e-10;
-
-            bool x1Check = Math.Abs(triangle.X1 - X1) > epsilon;
-            bool x2Check = Math.Abs(triangle.X2 - X2) > epsilon;
-            bool x3Check = Math.Abs(triangle.X3 - X3) > epsilon;
-            bool y1Check = Math.Abs(triangle.Y1 - Y1) > epsilon;
-            bool y2Check = Math.Abs(triangle.Y2 - Y2) > epsilon;
-            bool y3Check = Math.Abs(triangle.Y3 - Y3) > epsilon;
-
-            if (x1Check || x2Check || x3Check || y1Check || y2Check || y3Check)
-            {
-                return false;
-            }
-
-            return true;
+            return triangle.X1 == X1 && triangle.X2 == X2 && triangle.X3 == X3 && triangle.Y1 == Y1 && triangle.Y2 == Y2 && triangle.Y3 == Y3;
         }
     }
 }

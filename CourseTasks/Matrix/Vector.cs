@@ -5,26 +5,13 @@ namespace Academits.DargeevAleksandr
 {
     public class Vector
     {
-        public double[] Components
-        {
-            private get
-            {
-                return Components;
-            }
-            set
-            {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("Некорректный параметр - массив длины 0.");
-                }
-            }
-        }
+        private double[] components;
 
         public int Size
         {
             get
             {
-                return Components.Length;
+                return components.Length;
             }
         }
 
@@ -35,14 +22,14 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
-            Components = new double[n];
+            components = new double[n];
         }
 
         public Vector(Vector original)
         {
-            Components = new double[original.Size];
+            components = new double[original.Size];
 
-            Array.Copy(original.Components, Components, Size);
+            Array.Copy(original.components, components, Size);
         }
 
         public Vector(double[] a)
@@ -52,9 +39,9 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
-            Components = new double[a.Length];
+            components = new double[a.Length];
 
-            Array.Copy(a, Components, Size);
+            Array.Copy(a, components, a.Length);
         }
 
         public Vector(int n, double[] a)
@@ -64,11 +51,13 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
-            Components = new double[n];
+            components = new double[a.Length];
 
-            for (int i = 0; i < Math.Min(n, a.Length); i++)
+            Array.Copy(a, components, a.Length);
+
+            if (a.Length != n)
             {
-                Components[i] = a[i];
+                Array.Resize(ref components, n);
             }
         }
 
@@ -80,12 +69,20 @@ namespace Academits.DargeevAleksandr
 
             int n = Size;
 
-            for (int i = 0; i < n - 1; i++)
+            for (int i = 0; i < n; i++)
             {
-                result.Append(string.Format(" {0},", Components[i]));
+                result.Append(" ").Append(components[i]);
+
+                if (i < n - 1)
+                {
+                    result.Append(",");
+                }
+                else
+                {
+                    result.Append(" }");
+                }
             }
 
-            result.Append(string.Format(" {0} }}", Components[n - 1]));
             return result.ToString();
         }
 
@@ -96,14 +93,12 @@ namespace Academits.DargeevAleksandr
 
             if (n1 < n2)
             {
-                double[] temp = Components;
-                Array.Resize(ref temp, n2);
-                Components = temp;
+                Array.Resize(ref components, n2);
             }
 
             for (int i = 0; i < n2; i++)
             {
-                Components[i] += vector.Components[i];
+                components[i] += vector.components[i];
             }
         }
 
@@ -114,14 +109,12 @@ namespace Academits.DargeevAleksandr
 
             if (n1 < n2)
             {
-                double[] temp = Components;
-                Array.Resize(ref temp, n2);
-                Components = temp;
+                Array.Resize(ref components, n2);
             }
 
             for (int i = 0; i < n2; i++)
             {
-                Components[i] -= vector.Components[i];
+                components[i] -= vector.components[i];
             }
         }
 
@@ -129,7 +122,7 @@ namespace Academits.DargeevAleksandr
         {
             for (int i = 0; i < Size; i++)
             {
-                Components[i] *= scalar;
+                components[i] *= scalar;
             }
         }
 
@@ -144,7 +137,7 @@ namespace Academits.DargeevAleksandr
 
             for (int i = 0; i < Size; i++)
             {
-                result += Math.Pow(Components[i], 2);
+                result += Math.Pow(components[i], 2);
             }
 
             return Math.Sqrt(result);
@@ -157,7 +150,7 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentOutOfRangeException("SetByIndex: некорректный параметр индекса.");
             }
 
-            Components[index] = x;
+            components[index] = x;
         }
 
         public double GetByIndex(int index)
@@ -167,11 +160,16 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentOutOfRangeException("SetByIndex: некорректный параметр индекса.");
             }
 
-            return Components[index];
+            return components[index];
         }
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
@@ -186,7 +184,7 @@ namespace Academits.DargeevAleksandr
 
             for (int i = 0; i < Size; i++)
             {
-                if (Components[i] != vector.Components[i])
+                if (components[i] != vector.components[i])
                 {
                     return false;
                 }
@@ -199,7 +197,7 @@ namespace Academits.DargeevAleksandr
         {
             int hashCode = 0;
 
-            foreach (double x in Components)
+            foreach (double x in components)
             {
                 hashCode += x.GetHashCode();
             }
@@ -230,7 +228,7 @@ namespace Academits.DargeevAleksandr
 
             for (int i = 0; i < n; i++)
             {
-                result += vector1.Components[i] * vector2.Components[i];
+                result += vector1.components[i] * vector2.components[i];
             }
 
             return result;

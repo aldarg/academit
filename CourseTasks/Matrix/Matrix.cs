@@ -13,7 +13,12 @@ namespace Academits.DargeevAleksandr
             }
             set
             {
-                if ()
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Некорректный параметр - массив длины 0.");
+                }
+
+                Rows = value;
             }
         }
 
@@ -63,9 +68,9 @@ namespace Academits.DargeevAleksandr
 
         public Matrix(Vector[] vectors)
         {
-            if (vectors.Length <= 1 && vectors[0].Size <= 1)
+            if (vectors.Length == 1 && vectors[0].Size == 1)
             {
-                throw new ArgumentException("");
+                throw new ArgumentException("Некорректный размер матрицы - 1 х 1");
             }
 
             Rows = new Vector[vectors.Length];
@@ -307,6 +312,11 @@ namespace Academits.DargeevAleksandr
 
         public void Subtract(Matrix matrix)
         {
+            if (GetSize(0) != matrix.GetSize(0) || GetSize(1) != matrix.GetSize(1))
+            {
+                throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
+            }
+
             Matrix temp = new Matrix(matrix);
 
             temp.Multiply(-1);
@@ -315,6 +325,11 @@ namespace Academits.DargeevAleksandr
 
         public static Matrix GetSum(Matrix matrix1, Matrix matrix2)
         {
+            if (matrix1.GetSize(0) != matrix2.GetSize(0) || matrix1.GetSize(1) != matrix2.GetSize(1))
+            {
+                throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
+            }
+
             Matrix result = new Matrix(matrix1);
 
             result.Add(matrix2);
@@ -324,6 +339,11 @@ namespace Academits.DargeevAleksandr
 
         public static Matrix GetDifference(Matrix matrix1, Matrix matrix2)
         {
+            if (matrix1.GetSize(0) != matrix2.GetSize(0) || matrix1.GetSize(1) != matrix2.GetSize(1))
+            {
+                throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
+            }
+
             Matrix result = new Matrix(matrix1);
 
             result.Subtract(matrix2);
