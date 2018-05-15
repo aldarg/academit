@@ -51,39 +51,28 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
-            components = new double[a.Length];
+            components = new double[n];
 
-            Array.Copy(a, components, a.Length);
-
-            if (a.Length != n)
-            {
-                Array.Resize(ref components, n);
-            }
+            Array.Copy(a, 0, components, 0, Math.Min(a.Length, n));
         }
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("{");
+            StringBuilder result = new StringBuilder("{ ");
 
             int n = Size;
 
             for (int i = 0; i < n; i++)
             {
-                result.Append(" ").Append(components[i]);
+                result.Append(components[i]);
 
                 if (i < n - 1)
                 {
-                    result.Append(",");
-                }
-                else
-                {
-                    result.Append(" }");
+                    result.Append(", ");
                 }
             }
 
-            return result.ToString();
+            return result.Append(" }").ToString();
         }
 
         public void Add(Vector vector)

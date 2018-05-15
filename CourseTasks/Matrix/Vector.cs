@@ -63,27 +63,21 @@ namespace Academits.DargeevAleksandr
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("{");
+            StringBuilder result = new StringBuilder("{ ");
 
             int n = Size;
 
             for (int i = 0; i < n; i++)
             {
-                result.Append(" ").Append(components[i]);
+                result.Append(components[i]);
 
                 if (i < n - 1)
                 {
-                    result.Append(",");
-                }
-                else
-                {
-                    result.Append(" }");
+                    result.Append(", ");
                 }
             }
 
-            return result.ToString();
+            return result.Append(" }").ToString();
         }
 
         public void Add(Vector vector)
