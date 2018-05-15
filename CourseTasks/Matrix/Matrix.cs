@@ -42,8 +42,6 @@ namespace Academits.DargeevAleksandr
         {
             rows = new Vector[original.Height];
 
-            Array.Copy(original.rows, rows, original.Height);
-
             for (int i = 0; i < original.Height; i++)
             {
                 rows[i] = new Vector(original.GetRow(i));
