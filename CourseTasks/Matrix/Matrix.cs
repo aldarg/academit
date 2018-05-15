@@ -5,7 +5,9 @@ namespace Academits.DargeevAleksandr
 {
     public class Matrix
     {
-        public Vector[] Rows
+        private Vector[] rows;
+        
+        /*public Vector[] Rows
         {
             private get
             {
@@ -20,7 +22,7 @@ namespace Academits.DargeevAleksandr
 
                 Rows = value;
             }
-        }
+        }*/
 
         public Matrix(int n, int m)
         {
@@ -29,19 +31,19 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Matrix: неверные размеры матрицы.");
             }
 
-            Rows = new Vector[n];
+            rows = new Vector[n];
 
             for (int i = 0; i < n; i++)
             {
-                Rows[i] = new Vector(m);
+                rows[i] = new Vector(m);
             }
         }
 
         public Matrix(Matrix original)
         {
-            Rows = new Vector[original.GetSize(0)];
+            rows = new Vector[original.GetSize(0)];
 
-            Array.Copy(original.Rows, Rows, original.GetSize(0));
+            Array.Copy(original.rows, rows, original.GetSize(0));
         }
 
         public Matrix(double[,] a)
@@ -51,7 +53,7 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Размерность параметра <массив> должна быть больше 1.");
             }
 
-            Rows = new Vector[a.GetLength(0)];
+            rows = new Vector[a.GetLength(0)];
 
             for (int i = 0; i < a.GetLength(0); i++)
             {
@@ -62,7 +64,7 @@ namespace Academits.DargeevAleksandr
                     temp[j] = a[i, j];
                 }
 
-                Rows[i] = new Vector(temp);
+                rows[i] = new Vector(temp);
             }
         }
 
@@ -73,27 +75,25 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Некорректный размер матрицы - 1 х 1");
             }
 
-            Rows = new Vector[vectors.Length];
+            rows = new Vector[vectors.Length];
 
-            int m = 0;
+            int maxVectorSize = 0;
 
             foreach (Vector v in vectors)
             {
-                if (m < v.Size)
+                if (maxVectorSize < v.Size)
                 {
-                    m = v.Size;
+                    maxVectorSize = v.Size;
                 }
             }
 
             for (int i = 0; i < vectors.Length; i++)
             {
-                if (vectors[i].Size == m)
+                rows[i] = new Vector(vectors[i]);
+
+                if (rows[i].Size < maxVectorSize)
                 {
-                    Rows[i] = vectors[i];
-                }
-                else
-                {
-                    Rows[i] = Vector.GetSum(vectors[i], new Vector(m));
+                    rows[i].Add(new Vector(maxVectorSize));
                 }
             }
         }
@@ -104,13 +104,19 @@ namespace Academits.DargeevAleksandr
 
             result.Append("{ ");
 
-            for (int i = 0; i < GetSize(0) - 1; i++)
+            for (int i = 0; i < GetSize(0); i++)
             {
-                result.Append(Rows[i]).Append(", ");
-            }
+                result.Append(rows[i]);
 
-            result.Append(Rows[GetSize(0) - 1]);
-            result.Append(" }");
+                if (i < GetSize(0) - 1)
+                {
+                    result.Append(", ");
+                }
+                else
+                {
+                    result.Append(" }");
+                }
+            }
 
             return result.ToString();
         }
@@ -119,11 +125,11 @@ namespace Academits.DargeevAleksandr
         {
             if (dimension == 0)
             {
-                return Rows.Length;
+                return rows.Length;
             }
             else if (dimension == 1)
             {
-                return Rows[0].Size;
+                return rows[0].Size;
             }
             else
             {
@@ -138,7 +144,7 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("GetRow: Некорректный индекс.");
             }
 
-            return Rows[index];
+            return rows[index];
         }
 
         public void SetRow(Vector row, int index)
@@ -153,7 +159,7 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("SetRow: размерность строки не подходит под размерность матрицы.");
             }
 
-            Rows[index] = new Vector(row);
+            rows[index] = new Vector(row);
         }
 
         public void SetRow(double[] a, int index)
@@ -168,7 +174,7 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("SetRow: размерность строки не подходит под размерность матрицы.");
             }
 
-            Rows[index] = new Vector(a);
+            rows[index] = new Vector(a);
         }
 
         public Vector GetColumn(int index)
@@ -182,7 +188,7 @@ namespace Academits.DargeevAleksandr
 
             for (int i = 0; i < GetSize(0); i++)
             {
-                temp[i] = Rows[i].GetByIndex(index);
+                temp[i] = rows[i].GetByIndex(index);
             }
 
             return new Vector(temp);
@@ -197,14 +203,14 @@ namespace Academits.DargeevAleksandr
                 temp[i] = GetColumn(i);
             }
 
-            Rows = temp;
+            rows = temp;
         }
 
         public void Multiply(double scalar)
         {
             for (int i = 0; i < GetSize(0); i++)
             {
-                Rows[i].Multiply(scalar);
+                rows[i].Multiply(scalar);
             }
         }
 
@@ -232,7 +238,7 @@ namespace Academits.DargeevAleksandr
                         xOffset = 1;
                     }
 
-                    temp[m] = matrix.Rows[k + yOffset].GetByIndex(m + xOffset);
+                    temp[m] = matrix.rows[k + yOffset].GetByIndex(m + xOffset);
                 }
 
                 minorMatrix.SetRow(temp, k);
@@ -272,7 +278,7 @@ namespace Academits.DargeevAleksandr
                 throw new Exception("Неверная размерность матрицы для вычисления определителя.");
             }
 
-            Matrix temp = new Matrix(Rows);
+            Matrix temp = new Matrix(rows);
 
             return GetDeterminantStatic(temp);
         }
@@ -289,12 +295,12 @@ namespace Academits.DargeevAleksandr
             for (int i = 0; i < GetSize(0); i++)
             {
                 double[] temp = new double[1];
-                temp[0] = Vector.GetScalarProduct(Rows[i], vector);
+                temp[0] = Vector.GetScalarProduct(rows[i], vector);
 
-                result.Rows[i] = new Vector(temp);
+                result.rows[i] = new Vector(temp);
             }
 
-            Rows = result.Rows;
+            rows = result.rows;
         }
 
         public void Add(Matrix matrix)
@@ -306,7 +312,7 @@ namespace Academits.DargeevAleksandr
 
             for (int i = 0; i < GetSize(0); i++)
             {
-                Rows[i].Add(matrix.Rows[i]);
+                rows[i].Add(matrix.rows[i]);
             }
         }
 
@@ -366,7 +372,7 @@ namespace Academits.DargeevAleksandr
 
                 temp.Multiply(matrix2.GetColumn(i));
                 temp.Transpose();
-                result.SetRow(temp.Rows[0], i);
+                result.SetRow(temp.rows[0], i);
             }
 
             result.Transpose();

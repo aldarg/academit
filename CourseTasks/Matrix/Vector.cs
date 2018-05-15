@@ -29,7 +29,7 @@ namespace Academits.DargeevAleksandr
         {
             components = new double[original.Size];
 
-            Array.Copy(original.components, components, Size);
+            Array.Copy(original.components, components, original.Size);
         }
 
         public Vector(double[] a)

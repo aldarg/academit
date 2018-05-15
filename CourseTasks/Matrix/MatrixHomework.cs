@@ -78,7 +78,7 @@ namespace Academits.DargeevAleksandr
 
             Console.WriteLine(Matrix.MultiplyMatrixes(test6, test7));
 
-            double[,] e = { { 1 } };
+            double[,] e = { { 1, 2 } };
 
             Matrix test8 = new Matrix(e);
             Console.WriteLine(test8);
