@@ -51,14 +51,9 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Размерность вектора должна быть больше нуля.");
             }
 
-            components = new double[a.Length];
+            components = new double[n];
 
-            Array.Copy(a, components, a.Length);
-
-            if (a.Length != n)
-            {
-                Array.Resize(ref components, n);
-            }
+            Array.Copy(a, 0, components, 0, Math.Min(a.Length, n));
         }
 
         public override string ToString()

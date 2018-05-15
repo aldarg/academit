@@ -72,7 +72,7 @@ namespace Academits.DargeevAleksandr
             return Math.Abs(((X1 - X3) * (Y2 - Y3) - (X2 - X3) * (Y1 - Y3)) / 2);
         }
 
-        private double GetSideLength(double x1, double y1, double x2, double y2)
+        private static double GetSideLength(double x1, double y1, double x2, double y2)
         {
             return Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
         }

@@ -7,23 +7,6 @@ namespace Academits.DargeevAleksandr
     {
         private Vector[] rows;
         
-        /*public Vector[] Rows
-        {
-            private get
-            {
-                return Rows;
-            }
-            set
-            {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("Некорректный параметр - массив длины 0.");
-                }
-
-                Rows = value;
-            }
-        }*/
-
         public Matrix(int n, int m)
         {
             if (n <= 0 || m <= 0 || (n == 1 && m == 1))
@@ -100,9 +83,7 @@ namespace Academits.DargeevAleksandr
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("{ ");
+            StringBuilder result = new StringBuilder("{ ");
 
             for (int i = 0; i < GetSize(0); i++)
             {
@@ -112,13 +93,9 @@ namespace Academits.DargeevAleksandr
                 {
                     result.Append(", ");
                 }
-                else
-                {
-                    result.Append(" }");
-                }
             }
 
-            return result.ToString();
+            return result.Append(" }").ToString();
         }
 
         public int GetSize(int dimension)
