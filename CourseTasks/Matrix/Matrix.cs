@@ -44,7 +44,7 @@ namespace Academits.DargeevAleksandr
 
             for (int i = 0; i < original.RowsCount; i++)
             {
-                rows[i] = new Vector(original.GetRow(i));
+                rows[i] = original.GetRow(i);
             }
         }
 
@@ -218,19 +218,19 @@ namespace Academits.DargeevAleksandr
         {
             if (matrix.RowsCount == 1)
             {
-                return matrix.GetRow(0).GetByIndex(0);
+                return matrix.rows[0].GetByIndex(0);
             }
 
             if (matrix.RowsCount == 2)
             {
-                return matrix.GetRow(0).GetByIndex(0) * matrix.GetRow(1).GetByIndex(1) - matrix.GetRow(0).GetByIndex(1) * matrix.GetRow(1).GetByIndex(0);
+                return matrix.rows[0].GetByIndex(0) * matrix.rows[1].GetByIndex(1) - matrix.rows[0].GetByIndex(1) * matrix.rows[1].GetByIndex(0);
             }
 
             double determinant = 0;
 
             for (int i = 0; i < matrix.RowsCount; i++)
             {
-                determinant += Math.Pow(-1, i) * matrix.GetRow(0).GetByIndex(i) * GetMatrixDeterminant(GetMinorMatrix(matrix, 0, i));
+                determinant += Math.Pow(-1, i) * matrix.rows[0].GetByIndex(i) * GetMatrixDeterminant(GetMinorMatrix(matrix, 0, i));
             }
 
             return determinant;
@@ -334,7 +334,7 @@ namespace Academits.DargeevAleksandr
 
                 for (int j = 0; j < result.ColumnsCount; j++)
                 {
-                    temp[j] = Vector.GetScalarProduct(matrix1.GetRow(i), matrix2.GetColumn(j));
+                    temp[j] = Vector.GetScalarProduct(matrix1.rows[i], matrix2.GetColumn(j));
                 }
 
                 result.SetRow(i, new Vector(temp));
