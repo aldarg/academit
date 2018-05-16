@@ -7,7 +7,7 @@ namespace Academits.DargeevAleksandr
     {
         private Vector[] rows;
 
-        public int Width
+        public int ColumnsCount
         {
             get
             {
@@ -15,7 +15,7 @@ namespace Academits.DargeevAleksandr
             }
         }
         
-        public int Height
+        public int RowsCount
         {
             get
             {
@@ -40,9 +40,9 @@ namespace Academits.DargeevAleksandr
 
         public Matrix(Matrix original)
         {
-            rows = new Vector[original.Height];
+            rows = new Vector[original.RowsCount];
 
-            for (int i = 0; i < original.Height; i++)
+            for (int i = 0; i < original.RowsCount; i++)
             {
                 rows[i] = new Vector(original.GetRow(i));
             }
@@ -84,6 +84,11 @@ namespace Academits.DargeevAleksandr
                 }
             }
 
+            if (maxVectorSize == 0)
+            {
+                throw new ArgumentException("Все векторы массива - нулевой длины.");
+            }
+
             for (int i = 0; i < vectors.Length; i++)
             {
                 rows[i] = new Vector(vectors[i]);
@@ -99,11 +104,11 @@ namespace Academits.DargeevAleksandr
         {
             StringBuilder result = new StringBuilder("{ ");
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < RowsCount; i++)
             {
                 result.Append(rows[i]);
 
-                if (i < Height - 1)
+                if (i < RowsCount - 1)
                 {
                     result.Append(", ");
                 }
@@ -114,22 +119,22 @@ namespace Academits.DargeevAleksandr
 
         public Vector GetRow(int index)
         {
-            if (index < 0 || index >= Height)
+            if (index < 0 || index >= RowsCount)
             {
                 throw new IndexOutOfRangeException("GetRow: Некорректный индекс.");
             }
 
-            return rows[index];
+            return new Vector(rows[index]);
         }
 
         public void SetRow(int index, Vector row)
         {
-            if (index < 0 || index >= Height)
+            if (index < 0 || index >= RowsCount)
             {
                 throw new IndexOutOfRangeException("SetRow: Некорректный индекс.");
             }
 
-            if (row.Size != Width)
+            if (row.Size != ColumnsCount)
             {
                 throw new ArgumentException("SetRow: размерность строки не подходит под размерность матрицы.");
             }
@@ -139,14 +144,14 @@ namespace Academits.DargeevAleksandr
 
         public Vector GetColumn(int index)
         {
-            if (index < 0 || index >= Width)
+            if (index < 0 || index >= ColumnsCount)
             {
                 throw new IndexOutOfRangeException("GetColumn: Некорректный индекс.");
             }
 
-            double[] temp = new double[Height];
+            double[] temp = new double[RowsCount];
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < RowsCount; i++)
             {
                 temp[i] = rows[i].GetByIndex(index);
             }
@@ -156,9 +161,9 @@ namespace Academits.DargeevAleksandr
 
         public void Transpose()
         {
-            Vector[] temp = new Vector[Width];
+            Vector[] temp = new Vector[ColumnsCount];
 
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < ColumnsCount; i++)
             {
                 temp[i] = GetColumn(i);
             }
@@ -176,7 +181,7 @@ namespace Academits.DargeevAleksandr
 
         private static Matrix GetMinorMatrix(Matrix matrix, int i, int j)
         {
-            int dimension = matrix.Height - 1;
+            int dimension = matrix.RowsCount - 1;
             Matrix minorMatrix = new Matrix(dimension, dimension);
 
             int xOffset = 0;
@@ -211,19 +216,19 @@ namespace Academits.DargeevAleksandr
 
         private static double GetMatrixDeterminant(Matrix matrix)
         {
-            if (matrix.Height == 1)
+            if (matrix.RowsCount == 1)
             {
                 return matrix.GetRow(0).GetByIndex(0);
             }
 
-            if (matrix.Height == 2)
+            if (matrix.RowsCount == 2)
             {
                 return matrix.GetRow(0).GetByIndex(0) * matrix.GetRow(1).GetByIndex(1) - matrix.GetRow(0).GetByIndex(1) * matrix.GetRow(1).GetByIndex(0);
             }
 
             double determinant = 0;
 
-            for (int i = 0; i < matrix.Height; i++)
+            for (int i = 0; i < matrix.RowsCount; i++)
             {
                 determinant += Math.Pow(-1, i) * matrix.GetRow(0).GetByIndex(i) * GetMatrixDeterminant(GetMinorMatrix(matrix, 0, i));
             }
@@ -233,7 +238,7 @@ namespace Academits.DargeevAleksandr
 
         public double GetDeterminant()
         {
-            if (Height != Width)
+            if (RowsCount != ColumnsCount)
             {
                 throw new ArgumentException("Определитель можно посчитать только для матриц N x N.");
             }
@@ -245,14 +250,14 @@ namespace Academits.DargeevAleksandr
 
         public Vector Multiply(Vector vector)
         {
-            if (Width != vector.Size)
+            if (ColumnsCount != vector.Size)
             {
                 throw new ArgumentException("Неверная размерность вектора.");
             }
 
-            Vector result = new Vector(Height);
+            Vector result = new Vector(RowsCount);
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < RowsCount; i++)
             {
                 result.SetByIndex(i, Vector.GetScalarProduct(rows[i], vector));
             }
@@ -262,12 +267,12 @@ namespace Academits.DargeevAleksandr
 
         public void Add(Matrix matrix)
         {
-            if (Height != matrix.Height || Width != matrix.Width)
+            if (RowsCount != matrix.RowsCount || ColumnsCount != matrix.ColumnsCount)
             {
                 throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
             }
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < RowsCount; i++)
             {
                 rows[i].Add(matrix.rows[i]);
             }
@@ -275,12 +280,12 @@ namespace Academits.DargeevAleksandr
 
         public void Subtract(Matrix matrix)
         {
-            if (Height != matrix.Height || Width != matrix.Width)
+            if (RowsCount != matrix.RowsCount || ColumnsCount != matrix.ColumnsCount)
             {
                 throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
             }
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < RowsCount; i++)
             {
                 rows[i].Subtract(matrix.rows[i]);
             }
@@ -288,7 +293,7 @@ namespace Academits.DargeevAleksandr
 
         public static Matrix GetSum(Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1.Height != matrix2.Height || matrix1.Width != matrix2.Width)
+            if (matrix1.RowsCount != matrix2.RowsCount || matrix1.ColumnsCount != matrix2.ColumnsCount)
             {
                 throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
             }
@@ -302,7 +307,7 @@ namespace Academits.DargeevAleksandr
 
         public static Matrix GetDifference(Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1.Height != matrix2.Height || matrix1.Width != matrix2.Width)
+            if (matrix1.RowsCount != matrix2.RowsCount || matrix1.ColumnsCount != matrix2.ColumnsCount)
             {
                 throw new ArgumentException("Операции сложения и вычитания матриц возможны только для матриц одного размера.");
             }
@@ -316,18 +321,18 @@ namespace Academits.DargeevAleksandr
 
         public static Matrix MultiplyMatrixes(Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1.Width != matrix2.Height)
+            if (matrix1.ColumnsCount != matrix2.RowsCount)
             {
                 throw new ArgumentException("Умножение матриц невозможно - некорректные размеры.");
             }
 
-            Matrix result = new Matrix(matrix1.Height, matrix2.Width);
+            Matrix result = new Matrix(matrix1.RowsCount, matrix2.ColumnsCount);
 
-            for (int i = 0; i < result.Height; i++)
+            for (int i = 0; i < result.RowsCount; i++)
             {
-                double[] temp = new double[result.Width];
+                double[] temp = new double[result.ColumnsCount];
 
-                for (int j = 0; j < result.Width; j++)
+                for (int j = 0; j < result.ColumnsCount; j++)
                 {
                     temp[j] = Vector.GetScalarProduct(matrix1.GetRow(i), matrix2.GetColumn(j));
                 }

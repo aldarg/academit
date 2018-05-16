@@ -35,8 +35,8 @@ namespace Academits.DargeevAleksandr
             Console.WriteLine(test3);
             Console.WriteLine(test4);
 
-            Console.WriteLine(test4.Height);
-            Console.WriteLine(test4.Width);
+            Console.WriteLine(test4.RowsCount);
+            Console.WriteLine(test4.ColumnsCount);
 
             Console.WriteLine(test4.GetRow(2));
             test4.SetRow(2, vector1);
