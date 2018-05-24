@@ -72,8 +72,6 @@ namespace Academits.DargeevAleksandr
 
         public Matrix(Vector[] vectors)
         {
-            rows = new Vector[vectors.Length];
-
             int maxVectorSize = 0;
 
             foreach (Vector v in vectors)
@@ -88,6 +86,8 @@ namespace Academits.DargeevAleksandr
             {
                 throw new ArgumentException("Все векторы массива - нулевой длины.");
             }
+
+            rows = new Vector[vectors.Length];
 
             for (int i = 0; i < vectors.Length; i++)
             {
@@ -243,9 +243,7 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentException("Определитель можно посчитать только для матриц N x N.");
             }
 
-            Matrix temp = new Matrix(rows);
-
-            return GetMatrixDeterminant(temp);
+            return GetMatrixDeterminant(this);
         }
 
         public Vector Multiply(Vector vector)

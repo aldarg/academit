@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes", "Shapes\Shapes.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix", "Matrix\Matrix.csproj", "{9EF40966-5AC0-4646-BD49-753BB4D1C261}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List", "List\List.csproj", "{0202826F-ED0D-44C8-9484-1440ACC5CBC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListHome", "ArrayListHome\ArrayListHome.csproj", "{ED7FA3BC-FF1B-4874-BF26-F9CDE58713F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{9EF40966-5AC0-4646-BD49-753BB4D1C261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EF40966-5AC0-4646-BD49-753BB4D1C261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EF40966-5AC0-4646-BD49-753BB4D1C261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0202826F-ED0D-44C8-9484-1440ACC5CBC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0202826F-ED0D-44C8-9484-1440ACC5CBC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0202826F-ED0D-44C8-9484-1440ACC5CBC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0202826F-ED0D-44C8-9484-1440ACC5CBC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED7FA3BC-FF1B-4874-BF26-F9CDE58713F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED7FA3BC-FF1B-4874-BF26-F9CDE58713F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED7FA3BC-FF1B-4874-BF26-F9CDE58713F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED7FA3BC-FF1B-4874-BF26-F9CDE58713F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
