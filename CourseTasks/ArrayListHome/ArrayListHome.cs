@@ -41,13 +41,14 @@ namespace ArrayListHome
             // задача 2
             Console.WriteLine("Задача 2");
 
-            List<int> list1 = new List<int> { 1, 2, 3, 4, 5, 6, 7 };
+            List<int> list1 = new List<int> { 1, 2, 2, 4, 5, 6, 7 };
 
             for (int i = 0; i < list1.Count; i++)
             {
                 if (list1[i] % 2 == 0)
                 {
                     list1.RemoveAt(i);
+                    i--;
                 }
             }
 
