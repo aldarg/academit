@@ -59,25 +59,14 @@ namespace Academits.DargeevAleksandr
 
         public T GetData(int index)
         {
-            if (index < 0 || index >= Count)
-            {
-                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
-            }
-
             return GetElement(index).Data;
         }
 
         public T SetData(int index, T data)
         {
-            if (index < 0 || index >= Count)
-            {
-                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
-            }
-
             ListItem<T> item = GetElement(index);
 
             T oldData = item.Data;
-
             item.Data = data;
 
             return oldData;
@@ -101,7 +90,6 @@ namespace Academits.DargeevAleksandr
 
                 item.Next = prev.Next;
                 prev.Next = item;
-
                 Count++;
             }
         }
@@ -123,9 +111,7 @@ namespace Academits.DargeevAleksandr
                 ListItem<T> item = prev.Next;
 
                 T oldData = item.Data;
-
                 prev.Next = item.Next;
-
                 Count--;
 
                 return oldData;
@@ -138,7 +124,6 @@ namespace Academits.DargeevAleksandr
 
             firstItem.Next = head;
             head = firstItem;
-
             Count++;
         }
 
@@ -150,9 +135,7 @@ namespace Academits.DargeevAleksandr
             }
 
             T data = head.Data;
-
             head = head.Next;
-
             Count--;
 
             return data;
@@ -160,13 +143,11 @@ namespace Academits.DargeevAleksandr
 
         public bool RemoveByValue(T data)
         {
-            bool result = false;
-
             for (ListItem<T> item = head, prev = null; item != null; prev = item, item = item.Next)
             {
-                if ((data == null && item.Data == null) || item.Data.Equals(data))
+                if (Equals(item.Data, data))
                 {
-                    if (prev == null || prev.Next == head)
+                    if (prev == null)
                     {
                         head = item.Next;
                     }
@@ -177,21 +158,25 @@ namespace Academits.DargeevAleksandr
 
                     Count--;
 
-                    result = true;
+                    return true;
                 }
             }
 
-            return result;
+            return false;
         }
 
         public void Mirror()
         {
-            ListItem<T> next = null;
+            if (head == null)
+            {
+                throw new NullReferenceException("Список пуст.");
+            }
+
+            ListItem<T> next;
 
             for (ListItem<T> item = head.Next, prev = head; item != null; prev = item, item = next)
             {
                 next = item.Next;
-
                 item.Next = prev;
 
                 if (prev == head)
@@ -222,8 +207,9 @@ namespace Academits.DargeevAleksandr
             {
                 copyItem.Next = new ListItem<T>(item.Data);
                 copyItem = copyItem.Next;
-                copy.Count++;
             }
+
+            copy.Count = Count;
 
             return copy;
         }
