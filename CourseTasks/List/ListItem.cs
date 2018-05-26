@@ -2,38 +2,47 @@
 {
     internal class ListItem<T>
     {
-        private T data;
-        private ListItem<T> next;
+        public T Data
+        {
+            get;
+            private set;
+        }
+
+        public ListItem<T> Next
+        {
+            get;
+            private set;
+        }
 
         internal ListItem(T data)
         {
-            this.data = data;
+            Data = data;
         }
 
         internal ListItem(T data, ListItem<T> next)
         {
-            this.data = data;
-            this.next = next;
+            Data = data;
+            Next = next;
         }
 
         internal T GetData()
         {
-            return data;
+            return Data;
         }
 
         internal void SetData(T data)
         {
-            this.data = data;
+            Data = data;
         }
 
         internal ListItem<T> GetNext()
         {
-            return next;
+            return Next;
         }
 
         internal void SetNext(ListItem<T> next)
         {
-            this.next = next;
+            Next = next;
         }
     }
 }

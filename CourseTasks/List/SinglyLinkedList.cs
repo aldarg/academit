@@ -6,7 +6,7 @@ namespace Academits.DargeevAleksandr
     {
         private ListItem<T> head;
 
-        public int Length
+        public int Count
         {
             get;
             private set;
@@ -21,30 +21,30 @@ namespace Academits.DargeevAleksandr
             AddFirst(data);
         }
 
-        public T GetDataFirst()
+        public T GetFirstData()
         {
-            if (head != null)
+            if (head == null)
             {
-                return head.GetData();
+                throw new NullReferenceException("Список пуст.");
             }
             else
             {
-                throw new NullReferenceException("Список пуст.");
+                return head.Data;
             }
         }
 
         private ListItem<T> GetElement(int index)
         {
-            if (index < 0 || index > Length - 1)
+            if (index < 0 || index >= Count)
             {
                 throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
             }
 
-            ListItem<T> item = null;
+            ListItem<T> item;
 
             int i = 0;
 
-            for (item = head; item != null; item = item.GetNext())
+            for (item = head; item != null; item = item.Next)
             {
                 if (i == index)
                 {
@@ -59,37 +59,77 @@ namespace Academits.DargeevAleksandr
 
         public T GetData(int index)
         {
-            return GetElement(index).GetData();
+            if (index < 0 || index >= Count)
+            {
+                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
+            }
+
+            return GetElement(index).Data;
         }
 
         public T SetData(int index, T data)
         {
-            T oldData = GetElement(index).GetData();
+            if (index < 0 || index >= Count)
+            {
+                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
+            }
 
-            GetElement(index).SetData(data);
+            ListItem<T> item = GetElement(index);
+
+            T oldData = item.Data;
+
+            item.SetData(data);
 
             return oldData;
         }
 
         public void Add(int index, T data)
         {
-            ListItem<T> item = new ListItem<T>(data);
+            if (index < 0 || index > Count)
+            {
+                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля и не должен превышать длину списка более чем на единицу.");
+            }
 
-            item.SetNext(GetElement(index));
-            GetElement(index - 1).SetNext(item);
+            if (index == 0)
+            {
+                AddFirst(data);
+            }
+            else
+            {
+                ListItem<T> item = new ListItem<T>(data);
+                ListItem<T> prev = GetElement(index - 1);
 
-            Length++;
+                item.SetNext(prev.Next);
+                prev.SetNext(item);
+
+                Count++;
+            }
         }
 
         public T Remove(int index)
         {
-            T oldData = GetElement(index).GetData();
+            if (index < 0 || index >= Count)
+            {
+                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
+            }
 
-            GetElement(index - 1).SetNext(GetElement(index + 1));
+            if (index == 0)
+            {
+                return RemoveFirst();
+            }
+            else
+            {
+                ListItem<T> prev = GetElement(index - 1);
+                ListItem<T> item = prev.Next;
 
-            Length--;
+                T oldData = item.Data;
 
-            return oldData;
+                prev.SetNext(item.Next);
+
+                Count--;
+
+                return oldData;
+            }
         }
 
         public void AddFirst(T data)
@@ -99,49 +139,70 @@ namespace Academits.DargeevAleksandr
             firstItem.SetNext(head);
             head = firstItem;
 
-            Length++;
+            Count++;
         }
 
         public T RemoveFirst()
         {
-            T data = head.GetData();
+            if (head == null)
+            {
+                throw new NullReferenceException("Список пуст.");
+            }
 
-            head = head.GetNext();
+            T data = head.Data;
 
-            Length--;
+            head = head.Next;
+
+            Count--;
 
             return data;
         }
 
         public bool RemoveByValue(T data)
         {
-            for (ListItem<T> item = head, prev = null; item != null; prev = item, item = item.GetNext())
+            bool result = false;
+
+            for (ListItem<T> item = head, prev = null; item != null; prev = item, item = item.Next)
             {
-                if (item.GetData().Equals(data))
+                if ((data == null && item.Data == null) || item.Data.Equals(data))
                 {
-                    if (prev != null)
+                    if (prev == null || prev.Next == head)
                     {
-                        prev.SetNext(item.GetNext());
+                        head = item.Next;
                     }
                     else
                     {
-                        head = item.GetNext();
+                        prev.SetNext(item.Next);
                     }
 
-                    Length--;
+                    Count--;
 
-                    return true;
+                    result = true;
                 }
             }
 
-            return false;
+            return result;
         }
 
         public void Mirror()
         {
-            for (int i = 0; i < Length / 2; i++)
+            ListItem<T> next = null;
+
+            for (ListItem<T> item = head.Next, prev = head; item != null; prev = item, item = next)
             {
-                SetData(i, SetData(Length - 1 - i, GetData(i)));
+                next = item.Next;
+
+                item.SetNext(prev);
+
+                if (prev == head)
+                {
+                    prev.SetNext(null);
+                }
+
+                if (next == null)
+                {
+                    head = item;
+                }
             }
         }
 
@@ -149,12 +210,20 @@ namespace Academits.DargeevAleksandr
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
 
-            for (ListItem<T> item = head; item != null; item = item.GetNext())
+            if (Count == 0)
             {
-                copy.AddFirst(item.GetData());
+                return copy;
             }
 
-            copy.Mirror();
+            copy.AddFirst(head.Data);
+            ListItem<T> copyItem = copy.head;
+
+            for (ListItem<T> item = head.Next; item != null; item = item.GetNext())
+            {
+                copyItem.SetNext(new ListItem<T>(item.Data));
+                copyItem = copyItem.Next;
+                copy.Count++;
+            }
 
             return copy;
         }
