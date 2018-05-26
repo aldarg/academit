@@ -2,16 +2,16 @@
 {
     internal class ListItem<T>
     {
-        public T Data
+        internal T Data
         {
             get;
-            private set;
+            set;
         }
 
-        public ListItem<T> Next
+        internal ListItem<T> Next
         {
             get;
-            private set;
+            set;
         }
 
         internal ListItem(T data)
@@ -22,26 +22,6 @@
         internal ListItem(T data, ListItem<T> next)
         {
             Data = data;
-            Next = next;
-        }
-
-        internal T GetData()
-        {
-            return Data;
-        }
-
-        internal void SetData(T data)
-        {
-            Data = data;
-        }
-
-        internal ListItem<T> GetNext()
-        {
-            return Next;
-        }
-
-        internal void SetNext(ListItem<T> next)
-        {
             Next = next;
         }
     }

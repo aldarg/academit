@@ -78,7 +78,7 @@ namespace Academits.DargeevAleksandr
 
             T oldData = item.Data;
 
-            item.SetData(data);
+            item.Data = data;
 
             return oldData;
         }
@@ -99,8 +99,8 @@ namespace Academits.DargeevAleksandr
                 ListItem<T> item = new ListItem<T>(data);
                 ListItem<T> prev = GetElement(index - 1);
 
-                item.SetNext(prev.Next);
-                prev.SetNext(item);
+                item.Next = prev.Next;
+                prev.Next = item;
 
                 Count++;
             }
@@ -124,7 +124,7 @@ namespace Academits.DargeevAleksandr
 
                 T oldData = item.Data;
 
-                prev.SetNext(item.Next);
+                prev.Next = item.Next;
 
                 Count--;
 
@@ -136,7 +136,7 @@ namespace Academits.DargeevAleksandr
         {
             ListItem<T> firstItem = new ListItem<T>(data);
 
-            firstItem.SetNext(head);
+            firstItem.Next = head;
             head = firstItem;
 
             Count++;
@@ -172,7 +172,7 @@ namespace Academits.DargeevAleksandr
                     }
                     else
                     {
-                        prev.SetNext(item.Next);
+                        prev.Next = item.Next;
                     }
 
                     Count--;
@@ -192,11 +192,11 @@ namespace Academits.DargeevAleksandr
             {
                 next = item.Next;
 
-                item.SetNext(prev);
+                item.Next = prev;
 
                 if (prev == head)
                 {
-                    prev.SetNext(null);
+                    prev.Next = null;
                 }
 
                 if (next == null)
@@ -218,9 +218,9 @@ namespace Academits.DargeevAleksandr
             copy.AddFirst(head.Data);
             ListItem<T> copyItem = copy.head;
 
-            for (ListItem<T> item = head.Next; item != null; item = item.GetNext())
+            for (ListItem<T> item = head.Next; item != null; item = item.Next)
             {
-                copyItem.SetNext(new ListItem<T>(item.Data));
+                copyItem.Next = new ListItem<T>(item.Data);
                 copyItem = copyItem.Next;
                 copy.Count++;
             }
