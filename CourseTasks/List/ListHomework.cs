@@ -61,7 +61,12 @@ namespace Academits.DargeevAleksandr
 
             Console.WriteLine();
 
+            SinglyLinkedList<int> test3 = new SinglyLinkedList<int>(4);
 
+            for (int i = 0; i < test3.Length; i++)
+            {
+                Console.WriteLine(test3.GetData(i));
+            }
         }
     }
 }

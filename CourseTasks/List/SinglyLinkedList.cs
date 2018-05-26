@@ -73,10 +73,10 @@ namespace Academits.DargeevAleksandr
 
         public void Add(int index, T data)
         {
-            ListItem<T> firstItem = new ListItem<T>(data);
+            ListItem<T> item = new ListItem<T>(data);
 
-            firstItem.SetNext(GetElement(index));
-            GetElement(index - 1).SetNext(firstItem);
+            item.SetNext(GetElement(index));
+            GetElement(index - 1).SetNext(item);
 
             Length++;
         }
@@ -155,28 +155,6 @@ namespace Academits.DargeevAleksandr
             }
 
             copy.Mirror();
-
-            return copy;
-        }
-
-        public SinglyLinkedList<T> FullCopy()
-        {
-            SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
-
-            for (ListItem<T> item = head; item != null; item = item.GetNext())
-            {
-                copy.AddFirst(item.GetData());
-            }
-
-            copy.Mirror();
-
-            for (ListItem<T> item = head, copyItem = copy.head; item != null; item = item.GetNext(), copyItem = copyItem.GetNext())
-            {
-                if (item.GetOther() != null)
-                {
-                    copyItem.SetOther(item.GetOther());
-                }
-            }
 
             return copy;
         }

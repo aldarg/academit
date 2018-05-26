@@ -4,7 +4,6 @@
     {
         private T data;
         private ListItem<T> next;
-        private ListItem<T> other;
 
         internal ListItem(T data)
         {
@@ -15,13 +14,6 @@
         {
             this.data = data;
             this.next = next;
-        }
-
-        internal ListItem(T data, ListItem<T> next, ListItem<T> other)
-        {
-            this.data = data;
-            this.next = next;
-            this.other = other;
         }
 
         internal T GetData()
@@ -42,16 +34,6 @@
         internal void SetNext(ListItem<T> next)
         {
             this.next = next;
-        }
-
-        internal ListItem<T> GetOther()
-        {
-            return other;
-        }
-
-        internal void SetOther(ListItem<T> other)
-        {
-            this.other = other;
         }
     }
 }
