@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace List
+namespace Academits.DargeevAleksandr
 {
     public class MyList<T> : IList<T>
     {
@@ -11,6 +11,7 @@ namespace List
         public int Count
         {
             get;
+            private set;
         }
 
         public int Capacity
@@ -71,6 +72,7 @@ namespace List
         public bool IsReadOnly
         {
             get;
+            private set;
         }
 
         public void EnsureCapacity(int minCapacity)
@@ -90,57 +92,166 @@ namespace List
 
         public void TrimToSize()
         {
-            //TODO
+            if (Count == 0)
+            {
+                if (Capacity > 10)
+                {
+                    Capacity = 10;
+                }
+            }
+            else if (Count < Capacity * 0.9)
+            {
+                Capacity = Count;
+            }
         }
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            if (item != null)
+            {
+                if (Count >= Capacity)
+                {
+                    Capacity *= 2;
+                }
+
+                items[Count] = item;
+                ++Count;
+            }
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            if (Count > 0)
+            {
+                Array.Clear(items, 0, Count);
+                Count = 0;
+            }
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            foreach (T check in items)
+            {
+                if (Equals(check, item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
-        }
+            if (array == null)
+            {
+                throw new ArgumentNullException("Ошибка параметра <массив>  - null.");
+            }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
+            if (arrayIndex < 0 || arrayIndex >= array.Length)
+            {
+                throw new IndexOutOfRangeException("Параметр <индекс> выходит за границы заданного массива.");
+            }
+
+            if (array.Length < arrayIndex + Count)
+            {
+                throw new ArgumentOutOfRangeException("Длины массива не хватит для копирования списка.");
+            }
+
+            if (Count != 0)
+            {
+                Array.Copy(items, 0, array, arrayIndex, Count);
+            }
         }
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Count; ++i)
+            {
+                if (Equals(items[i], item))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index > Count)
+            {
+                throw new IndexOutOfRangeException("Индекс превышает границы списка.");
+            }
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("Аргумент null.");
+            }
+
+            if (Count >= Capacity)
+            {
+                Capacity *= 2;
+            }
+
+            if (index == Count)
+            {
+                items[index] = item;
+                ++Count;
+            }
+            else
+            {
+                Array.Copy(items, index, items, index + 1, Count - index);
+                items[index] = item;
+                ++Count;
+            }
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int index = IndexOf(item);
+
+            if (index != -1)
+            {
+                RemoveAt(index);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index >= Count)
+            {
+                throw new IndexOutOfRangeException("Индекс превышает границы списка.");
+            }
+
+            if (index == Count - 1)
+            {
+                --Count;
+            }
+            else
+            {
+                Array.Copy(items, index + 1, items, index, Count - index - 1);
+                --Count;
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < Count; ++i)
+            {
+                yield return items[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
