@@ -115,14 +115,7 @@ namespace Academits.DargeevAleksandr
 
         public bool Contains(T item)
         {
-            if (IndexOf(item) != -1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (IndexOf(item) != -1);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
