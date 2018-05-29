@@ -169,7 +169,7 @@ namespace Academits.DargeevAleksandr
         {
             if (head == null)
             {
-                throw new NullReferenceException("Список пуст.");
+                return;
             }
 
             ListItem<T> next;

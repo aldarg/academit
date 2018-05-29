@@ -91,6 +91,11 @@ namespace Academits.DargeevAleksandr
             foreach (int num in test2)
             {
                 Console.WriteLine(num);
+
+                if (num == 5)
+                {
+                    test2.Remove(5);
+                }
             }
 
         }

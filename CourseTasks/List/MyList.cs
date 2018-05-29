@@ -6,7 +6,8 @@ namespace Academits.DargeevAleksandr
 {
     public class MyList<T> : IList<T>
     {
-        private T[] items = new T[10];
+        private T[] items;
+        private int modCount;
 
         public int Count
         {
@@ -18,7 +19,14 @@ namespace Academits.DargeevAleksandr
         {
             get
             {
-                return items.Length;
+                if (items == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return items.Length;
+                }
             }
             set
             {
@@ -29,11 +37,7 @@ namespace Academits.DargeevAleksandr
 
                 if (value != Capacity)
                 {
-                    T[] newArray = new T[value];
-
-                    Array.Copy(items, 0, newArray, 0, Count);
-
-                    items = newArray;
+                    Array.Resize(ref items, value);
                 }
             }
         }
@@ -71,35 +75,23 @@ namespace Academits.DargeevAleksandr
 
         public bool IsReadOnly
         {
-            get;
-            private set;
+            get
+            {
+                return false;
+            }
         }
 
         public void EnsureCapacity(int minCapacity)
         {
             if (minCapacity > Capacity)
             {
-                int result = (Count == 0) ? 10 : Count * 2;
-
-                if (result < minCapacity)
-                {
-                    result = minCapacity;
-                }
-
-                Capacity = result;
+                Capacity = minCapacity;
             }
         }
 
         public void TrimToSize()
         {
-            if (Count == 0)
-            {
-                if (Capacity > 10)
-                {
-                    Capacity = 10;
-                }
-            }
-            else if (Count < Capacity * 0.9)
+            if (Count < Capacity * 0.9)
             {
                 Capacity = Count;
             }
@@ -107,16 +99,18 @@ namespace Academits.DargeevAleksandr
 
         public void Add(T item)
         {
-            if (item != null)
+            if (Capacity == 0)
             {
-                if (Count >= Capacity)
-                {
-                    Capacity *= 2;
-                }
-
-                items[Count] = item;
-                ++Count;
+                Capacity += 1;
             }
+            else if (Count >= Capacity)
+            {
+                Capacity *= 2;
+            }
+
+            items[Count] = item;
+            ++Count;
+            ++modCount;
         }
 
         public void Clear()
@@ -125,20 +119,20 @@ namespace Academits.DargeevAleksandr
             {
                 Array.Clear(items, 0, Count);
                 Count = 0;
+                ++modCount;
             }
         }
 
         public bool Contains(T item)
         {
-            foreach (T check in items)
+            if (IndexOf(item) != -1)
             {
-                if (Equals(check, item))
-                {
-                    return true;
-                }
+                return true;
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -184,12 +178,11 @@ namespace Academits.DargeevAleksandr
                 throw new IndexOutOfRangeException("Индекс превышает границы списка.");
             }
 
-            if (item == null)
+            if (Capacity == 0)
             {
-                throw new ArgumentNullException("Аргумент null.");
+                Capacity += 1;
             }
-
-            if (Count >= Capacity)
+            else if (Count >= Capacity)
             {
                 Capacity *= 2;
             }
@@ -205,6 +198,8 @@ namespace Academits.DargeevAleksandr
                 items[index] = item;
                 ++Count;
             }
+
+            ++modCount;
         }
 
         public bool Remove(T item)
@@ -239,12 +234,21 @@ namespace Academits.DargeevAleksandr
                 Array.Copy(items, index + 1, items, index, Count - index - 1);
                 --Count;
             }
+
+            ++modCount;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
+            int check = modCount;
+
             for (int i = 0; i < Count; ++i)
             {
+                if (check != modCount)
+                {
+                    throw new InvalidOperationException("Ошибка: во время итераций изменилось число элементов в списке.");
+                }
+
                 yield return items[i];
             }
         }
