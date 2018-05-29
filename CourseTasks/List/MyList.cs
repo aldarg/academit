@@ -19,14 +19,7 @@ namespace Academits.DargeevAleksandr
         {
             get
             {
-                if (items == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return items.Length;
-                }
+                return items.Length;
             }
             set
             {
@@ -66,6 +59,7 @@ namespace Academits.DargeevAleksandr
 
         public MyList()
         {
+            items = new T[10];
         }
 
         public MyList(int capacity)
@@ -99,11 +93,7 @@ namespace Academits.DargeevAleksandr
 
         public void Add(T item)
         {
-            if (Capacity == 0)
-            {
-                Capacity += 1;
-            }
-            else if (Count >= Capacity)
+            if (Count >= Capacity)
             {
                 Capacity *= 2;
             }
@@ -178,11 +168,7 @@ namespace Academits.DargeevAleksandr
                 throw new IndexOutOfRangeException("Индекс превышает границы списка.");
             }
 
-            if (Capacity == 0)
-            {
-                Capacity += 1;
-            }
-            else if (Count >= Capacity)
+            if (Count >= Capacity)
             {
                 Capacity *= 2;
             }
