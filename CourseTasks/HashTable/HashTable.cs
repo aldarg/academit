@@ -79,12 +79,14 @@ namespace Academits.DargeevAleksandr
 
         private int GetIndex(T item)
         {
-            if (item == null)
+            if (item != null)
             {
-                throw new ArgumentNullException("Ошибка параметра <item> - ссылка на null.");
+                return Math.Abs(item.GetHashCode() % Capacity);
             }
-
-            return Math.Abs(item.GetHashCode() % Capacity);
+            else
+            {
+                return 0;
+            }
         }
 
         public void Add(T item)
@@ -149,7 +151,12 @@ namespace Academits.DargeevAleksandr
         {
             if (array == null)
             {
-                throw new ArgumentNullException("Ошибка параметра <array> - ссылка на null.");
+                throw new ArgumentNullException("Ошибка параметра <array>: ссылка на null.");
+            }
+
+            if (arrayIndex < 0 || arrayIndex >= array.Length)
+            {
+                throw new IndexOutOfRangeException("Ошибка параметра <arrayIndex>: выход за границы массива.");
             }
 
             if (Count == 0)
@@ -164,14 +171,10 @@ namespace Academits.DargeevAleksandr
 
             int start = arrayIndex;
 
-            for (int i = 0; i < Capacity; ++i)
+            foreach (T item in this)
             {
-                if (table[i] != null)
-                {
-                    Array.Copy(table[i].ToArray(), 0, array, start, table[i].Count);
-
-                    start += table[i].Count;
-                }
+                array.SetValue(item, start);
+                ++start;
             }
         }
 

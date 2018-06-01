@@ -6,9 +6,23 @@ namespace Academits.DargeevAleksandr
     {
         static void Main(string[] args)
         {
-            HashTable<int> test1 = new HashTable<int>(10);
+            HashTable<Object> test1 = new HashTable<Object>(10);
 
-            test1.Add(1);
+            test1.Add(null);
+
+            foreach(Object a in test1)
+            {
+                Console.WriteLine(a);
+            }
+
+            test1.Remove(null);
+
+            foreach (Object a in test1)
+            {
+                Console.WriteLine(a);
+            }
+
+            /*test1.Add(1);
             test1.Add(2);
             test1.Add(3);
             test1.Add(4);
@@ -45,7 +59,7 @@ namespace Academits.DargeevAleksandr
             foreach (int a in test1)
             {
                 Console.WriteLine(a);
-            }
+            }*/
         }
     }
 }
