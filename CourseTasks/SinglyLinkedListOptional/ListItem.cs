@@ -14,6 +14,12 @@
             set;
         }
 
+        internal ListItem<T> Other
+        {
+            get;
+            set;
+        }
+
         internal ListItem(T data)
         {
             Data = data;
