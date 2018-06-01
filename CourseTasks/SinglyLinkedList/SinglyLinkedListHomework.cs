@@ -8,84 +8,58 @@ namespace Academits.DargeevAleksandr
         {
             SinglyLinkedList<int> test = new SinglyLinkedList<int>();
 
-            test.AddFirst(5);
-
-            Console.WriteLine(test.Count);
-            Console.WriteLine(test.GetData(0));
-
-            test.RemoveByValue(5);
-
-            Console.WriteLine(test.Count);
-
-            test.AddFirst(5);
-            test.AddFirst(4);
-            test.AddFirst(3);
-            test.AddFirst(5);
-            test.AddFirst(5);
-
-            Console.WriteLine(test.Count);
-            Console.WriteLine(test.GetData(1));
-
-            Console.WriteLine("Проверка удаления по значению");
-
-            for (int i = 0; i < test.Count; i++)
-            {
-                Console.WriteLine(test.GetData(i));
-            }
-
-            test.RemoveByValue(5);
-
-            Console.WriteLine();
-
-            for (int i = 0; i < test.Count; i++)
-            {
-                Console.WriteLine(test.GetData(i));
-            }
-
-            Console.WriteLine(test.Count);
-            Console.WriteLine(test.GetData(1));
-
             test.AddFirst(1);
             test.AddFirst(2);
             test.AddFirst(3);
+            test.AddFirst(4);
+            test.AddFirst(5);
 
-            Console.WriteLine("Проверка разворота");
+            test.SetOther(0, 3);
+            test.SetOther(3, 3);
+            test.SetOther(1, 4);
+            test.SetOther(4, 2);
 
-            for (int i = 0; i < test.Count; i++)
+            for (int i = 0; i < test.Count; ++i)
             {
                 Console.WriteLine(test.GetData(i));
             }
 
-            test.Mirror();
             Console.WriteLine();
 
-            for (int i = 0; i < test.Count; i++)
-            {
-                Console.WriteLine(test.GetData(i));
-            }
-
-            Console.WriteLine("Проверка копирования");
-
-            SinglyLinkedList<int> test2 = new SinglyLinkedList<int>();
-            test2 = test.Copy();
-
-            for (int i = 0; i < test2.Count; i++)
-            {
-                Console.WriteLine(test2.GetData(i));
-            }
+            Console.WriteLine(test.GetData(0));
+            Console.WriteLine(test.GetOtherData(0));
+            Console.WriteLine(test.GetData(3));
+            Console.WriteLine(test.GetOtherData(3));
 
             Console.WriteLine();
 
-            SinglyLinkedList<int> test3 = new SinglyLinkedList<int>(4);
+            SinglyLinkedList<int> testCopy = test.CopyOptional();
 
-            for (int i = 0; i < test3.Count; i++)
+            test.RemoveFirst();
+            test.RemoveFirst();
+            test.RemoveFirst();
+            test.RemoveFirst();
+            test.RemoveFirst();
+
+            try
             {
-                Console.WriteLine(test3.GetData(i));
+                Console.WriteLine(test.GetFirstData());
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e);
             }
 
-            SinglyLinkedList<int> test4 = new SinglyLinkedList<int>();
+            for (int i = 0; i < testCopy.Count; ++i)
+            {
+                Console.WriteLine(testCopy.GetData(i));
+            }
+            Console.WriteLine();
 
-            test4.Mirror();
+            Console.WriteLine(testCopy.GetData(0));
+            Console.WriteLine(testCopy.GetOtherData(0));
+            Console.WriteLine(testCopy.GetData(3));
+            Console.WriteLine(testCopy.GetOtherData(3));
         }
     }
 }

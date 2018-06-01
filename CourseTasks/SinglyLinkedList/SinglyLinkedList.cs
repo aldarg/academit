@@ -213,5 +213,86 @@ namespace Academits.DargeevAleksandr
 
             return copy;
         }
+
+        public void SetOther(int index, int otherIndex)
+        {
+            if (index < 0 || index >= Count || otherIndex < 0 || otherIndex >= Count)
+            {
+                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
+            }
+
+            GetElement(index).Other = GetElement(otherIndex);
+        }
+
+        public T GetOtherData(int index)
+        {
+            if (index < 0 || index >= Count)
+            {
+                throw new IndexOutOfRangeException("Индекс элемента не должен быть меньше нуля или больше длины списка.");
+            }
+
+            return GetElement(index).Other.Data;
+        }
+
+        public SinglyLinkedList<T> CopyOptional()
+        {
+            SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
+
+            if (Count == 0)
+            {
+                return copy;
+            }
+
+            copy.AddFirst(head.Data);
+            ListItem<T> copyItem = copy.head;
+            copyItem.Next = head.Next;
+
+            if (head.Other != null)
+            {
+                copyItem.Other = head.Other;
+            }
+            head.Next = copyItem;
+
+            for (ListItem<T> item = copyItem.Next; item != null; item = copyItem.Next)
+            {
+                copyItem = new ListItem<T>(item.Data);
+                copyItem.Next = item.Next;
+
+                if (item.Other != null)
+                {
+                    copyItem.Other = item.Other;
+                }
+
+                item.Next = copyItem;
+            }
+
+            int check = 1;
+
+            for (ListItem<T> item = head; item != null; item = item.Next)
+            {
+                if (check % 2 == 0)
+                {
+                    if (item.Other != null)
+                    {
+                        item.Other = item.Other.Next;
+                    }
+                }
+
+                ++check;
+            }
+
+            for (ListItem<T> item = head, next = head.Next; item != null; item = item.Next, next = next.Next)
+            {
+                item.Next = next.Next;
+                if (item.Next != null)
+                {
+                    next.Next = item.Next.Next;
+                }
+            }
+
+            copy.Count = Count;
+
+            return copy;
+        }
     }
 }
