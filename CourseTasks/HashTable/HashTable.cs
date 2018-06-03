@@ -169,12 +169,12 @@ namespace Academits.DargeevAleksandr
                 throw new ArgumentOutOfRangeException("Длины массива с учетом стартового индекса не хватит для копирования.");
             }
 
-            int start = arrayIndex;
+            int index = arrayIndex;
 
             foreach (T item in this)
             {
-                array.SetValue(item, start);
-                ++start;
+                array[index] = item;
+                ++index;
             }
         }
 
