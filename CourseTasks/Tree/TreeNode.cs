@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Academits.DargeevAleksandr
 {
-    internal class TreeNode<T>
+    internal class TreeNode<T> where T : IComparable<T>
     {
         internal TreeNode<T> Left
         {
@@ -23,12 +19,16 @@ namespace Academits.DargeevAleksandr
         internal T Data
         {
             get;
-            set;
         }
 
         internal TreeNode(T data)
         {
             Data = data;
+        }
+
+        public override string ToString()
+        {
+            return Data.ToString();
         }
     }
 }

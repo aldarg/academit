@@ -6,9 +6,9 @@ namespace Academits.DargeevAleksandr
     {
         static void Main(string[] args)
         {
-            HashTable<Object> test1 = new HashTable<Object>(10);
+            HashTable<int> test1 = new HashTable<int>(10);
 
-            test1.Add(null);
+            /*test1.Add(null);
 
             foreach(Object a in test1)
             {
@@ -20,15 +20,16 @@ namespace Academits.DargeevAleksandr
             foreach (Object a in test1)
             {
                 Console.WriteLine(a);
-            }
+            }*/
 
-            /*test1.Add(1);
+            test1.Add(1);
             test1.Add(2);
             test1.Add(3);
             test1.Add(4);
             test1.Add(2);
 
             Console.WriteLine(test1.Capacity);
+            Console.WriteLine(test1.Count);
 
             foreach (int a in test1)
             {
@@ -39,7 +40,7 @@ namespace Academits.DargeevAleksandr
 
             int[] array = new int[10];
 
-            test1.CopyTo(array, 3);
+            test1.CopyTo(array, 7);
 
             foreach (int a in array)
             {
@@ -59,7 +60,7 @@ namespace Academits.DargeevAleksandr
             foreach (int a in test1)
             {
                 Console.WriteLine(a);
-            }*/
+            }
         }
     }
 }
