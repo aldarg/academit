@@ -55,15 +55,14 @@ namespace Academits.DargeevAleksandr
 
             if (comparer == null)
             {
-                var data1Comparable = data1 as IComparable;
-                var data2Comparable = data2 as IComparable;
+                var data1Comparable = data1 as IComparable<T>;
 
                 if (data1Comparable == null)
                 {
                     throw new TypeLoadException("Ошибка приведения к Comparable.");
                 }
 
-                check = data1Comparable.CompareTo(data2Comparable);
+                check = data1Comparable.CompareTo(data2);
             }
             else
             {
@@ -297,7 +296,7 @@ namespace Academits.DargeevAleksandr
             return true;
         }
 
-        private void Visit(TreeNode<T> node, Action<T> action)
+        private static void Visit(TreeNode<T> node, Action<T> action)
         {
             if (node == null)
             {
