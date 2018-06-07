@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace Academits.DargeevAleksandr
 {
-    class Tree<T> where T : IComparable<T>
+    class Tree<T>
     {
         private TreeNode<T> root;
+        private IComparer<T> comparer;
 
         public int Count
         {
@@ -17,10 +18,59 @@ namespace Academits.DargeevAleksandr
         {
         }
 
+        public Tree(IComparer<T> comparer)
+        {
+            this.comparer = comparer;
+        }
+
         public Tree(T root)
         {
             this.root = new TreeNode<T>(root);
             Count = 1;
+        }
+
+        public Tree(T root, IComparer<T> comparer)
+        {
+            this.root = new TreeNode<T>(root);
+            this.comparer = comparer;
+            Count = 1;
+        }
+
+        private int Compare(T data1, T data2)
+        {
+            if (data1 == null && data2 != null)
+            {
+                return -1;
+            }
+            else if (data1 != null && data2 == null)
+            {
+                return 1;
+            }
+            else if (data1 == null && data2 == null)
+            {
+                return 0;
+            }
+
+            int check;
+
+            if (comparer == null)
+            {
+                var data1Comparable = data1 as IComparable;
+                var data2Comparable = data2 as IComparable;
+
+                if (data1Comparable == null)
+                {
+                    throw new TypeLoadException("Ошибка приведения к Comparable.");
+                }
+
+                check = data1Comparable.CompareTo(data2Comparable);
+            }
+            else
+            {
+                check = comparer.Compare(data1, data2);
+            }
+
+            return check;
         }
 
         public void Add(T newData)
@@ -37,7 +87,7 @@ namespace Academits.DargeevAleksandr
 
             while (current != null)
             {
-                if (newData.CompareTo(current.Data) < 0)
+                if (Compare(newData, current.Data) < 0)
                 {
                     if (current.Left != null)
                     {
@@ -72,14 +122,14 @@ namespace Academits.DargeevAleksandr
         {
             if (root == null)
             {
-                throw new NullReferenceException("Ошибка: пустое дерево.");
+                return null;
             }
 
             TreeNode<T> current = root;
 
             while (current != null)
             {
-                int check = data.CompareTo(current.Data);
+                int check = Compare(data, current.Data);
 
                 if (check == 0)
                 {
@@ -116,9 +166,9 @@ namespace Academits.DargeevAleksandr
             return current;
         }
 
-        private TreeNode<T> GetParent(TreeNode<T> children)
+        private TreeNode<T> GetParent(TreeNode<T> child)
         {
-            if (children == null)
+            if (child == null)
             {
                 throw new NullReferenceException("Ошибка: в качестве аргумента <children> передан null.");
             }
@@ -132,16 +182,16 @@ namespace Academits.DargeevAleksandr
 
             while (current != null)
             {
-                if (current == children)
+                if (current == child)
                 {
                     return null;
                 }
 
-                int check = children.Data.CompareTo(current.Data);
+                int check = Compare(child.Data, current.Data);
 
                 if (check < 0)
                 {
-                    if (current.Left == children)
+                    if (current.Left == child)
                     {
                         break;
                     }
@@ -156,7 +206,7 @@ namespace Academits.DargeevAleksandr
                 }
                 else
                 {
-                    if (current.Right == children)
+                    if (current.Right == child)
                     {
                         break;
                     }
@@ -247,40 +297,50 @@ namespace Academits.DargeevAleksandr
             return true;
         }
 
-        private void Visit(TreeNode<T> node)
+        private void Visit(TreeNode<T> node, Action<T> action)
         {
-            if (node == null )
+            if (node == null)
             {
                 return;
             }
 
-            Console.WriteLine(node.Data);
+            action(node.Data);
 
             if (node.Left != null)
             {
-                Visit(node.Left);
+                Visit(node.Left, action);
             }
             if (node.Right != null)
             {
-                Visit(node.Right);
+                Visit(node.Right, action);
             }
         }
 
-        public void RecursiveDepthTraversal()
+        public void RecursiveDepthTraversal(Action<T> action)
         {
-            if (root == null)
+            if (action == null)
             {
-                throw new NullReferenceException("Ошибка: пустое дерево.");
+                throw new ArgumentNullException("Не задан делегат Action<T>");
             }
 
-            Visit(root);
-        }
-
-        public void NonRecursiveDepthTraversal()
-        {
             if (root == null)
             {
-                throw new NullReferenceException("Ошибка: пустое дерево.");
+                return;
+            }
+
+            Visit(root, action);
+        }
+
+        public void NonRecursiveDepthTraversal(Action<T> action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException("Не задан делегат Action<T>");
+            }
+
+            if (root == null)
+            {
+                return;
             }
 
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
@@ -291,7 +351,7 @@ namespace Academits.DargeevAleksandr
             {
                 TreeNode<T> node = stack.Pop();
 
-                Console.WriteLine(node.Data);
+                action(node.Data);
 
                 if (node.Right != null)
                 {
@@ -304,11 +364,16 @@ namespace Academits.DargeevAleksandr
             }
         }
 
-        public void BreadthTraversal()
+        public void BreadthTraversal(Action<T> action)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException("Не задан делегат Action<T>");
+            }
+
             if (root == null)
             {
-                throw new NullReferenceException("Ошибка: пустое дерево.");
+                return;
             }
 
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
@@ -319,7 +384,7 @@ namespace Academits.DargeevAleksandr
             {
                 TreeNode<T> current = queue.Dequeue();
 
-                Console.WriteLine(current.Data);
+                action(current.Data);
 
                 if (current.Left != null)
                 {

@@ -2,7 +2,7 @@
 
 namespace Academits.DargeevAleksandr
 {
-    internal class TreeNode<T> where T : IComparable<T>
+    internal class TreeNode<T>
     {
         internal TreeNode<T> Left
         {
@@ -24,11 +24,6 @@ namespace Academits.DargeevAleksandr
         internal TreeNode(T data)
         {
             Data = data;
-        }
-
-        public override string ToString()
-        {
-            return Data.ToString();
         }
     }
 }
