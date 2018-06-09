@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Academits.DargeevAleksandr
 {
-    class LambdaHome
+    class Lambda1
     {
         static void Main(string[] args)
         {
@@ -37,6 +35,15 @@ namespace Academits.DargeevAleksandr
             Dictionary<string, double> map = persons
                 .GroupBy(x => x.Name)
                 .ToDictionary(x => x.Key, x => x.Average(y => y.Age));
+
+            // Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
+
+            var adultsNames = persons
+                .Where(x => (x.Age >= 20 && x.Age <= 45))
+                .Select(x => x.Name)
+                .OrderByDescending(x => x);
+
+            Console.WriteLine("Взрослые: " + string.Join(", ", adultsNames));
 
             Console.WriteLine();
         }

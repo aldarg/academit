@@ -25,7 +25,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tree", "Tree\Tree.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj", "{D7D8ADFA-DBDF-4BF0-B4FB-6E5DA3598B85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaHome", "LambdaHome\LambdaHome.csproj", "{3BB34047-69EB-4878-ADFA-FDE8E74AB830}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lambda1", "LambdaHome\Lambda1.csproj", "{3BB34047-69EB-4878-ADFA-FDE8E74AB830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lambda2", "Lambda2\Lambda2.csproj", "{0F8868E0-9216-4DC3-958E-FD50EB00D309}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{3BB34047-69EB-4878-ADFA-FDE8E74AB830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB34047-69EB-4878-ADFA-FDE8E74AB830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BB34047-69EB-4878-ADFA-FDE8E74AB830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8868E0-9216-4DC3-958E-FD50EB00D309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8868E0-9216-4DC3-958E-FD50EB00D309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8868E0-9216-4DC3-958E-FD50EB00D309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8868E0-9216-4DC3-958E-FD50EB00D309}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
