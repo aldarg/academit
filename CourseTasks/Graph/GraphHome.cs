@@ -25,6 +25,10 @@ namespace Academits.DargeevAleksandr
             Console.WriteLine();
 
             test.DepthTraversal(action);
+
+            Console.WriteLine();
+
+            test.RecursiveDepthTraversal(action);
         }
     }
 }

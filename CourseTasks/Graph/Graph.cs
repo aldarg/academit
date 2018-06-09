@@ -112,5 +112,42 @@ namespace Academits.DargeevAleksandr
                 }
             }
         }
+
+        private void Visit(int vertice, bool[] visited, Action<int> action)
+        {
+            if (visited[vertice])
+            {
+                return;
+            }
+
+            action(vertice);
+            visited[vertice] = true;
+
+            for (int i = 0; i < Edges.GetLength(0); ++i)
+            {
+                if (Edges[vertice, i] != 0 && i != vertice)
+                {
+                    Visit(i, visited, action);
+                }
+            }
+        }
+
+        public void RecursiveDepthTraversal(Action<int> action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException("Не задан делегат Action");
+            }
+
+            bool[] visited = new bool[Edges.GetLength(0)];
+
+            for (int i = 0; i < Edges.GetLength(0); ++i)
+            {
+                if (!visited[i])
+                {
+                    Visit(i, visited, action);
+                }
+            }
+        }
     }
 }
