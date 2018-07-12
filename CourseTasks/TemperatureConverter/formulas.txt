@@ -1,0 +1,6 @@
+﻿celsius;kelvin;input+273.15
+kelvin;celsius;input-273.15
+fahrenheit;kelvin;(input+459.67)*5/9
+kelvin;fahrenheit;input*9/5-459.67
+fahrenheit;celsius;(input-32)*5/9
+celsius;fahrenheit;input*9/5+32
