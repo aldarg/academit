@@ -28,7 +28,7 @@ namespace Academits.DargeevAleksandr
 
             try
             {
-                outputTemperature.Text = String.Format("{0:f1}", converter.GetResult(inputValue, fromScale.SelectedItem.ToString(), toScale.SelectedItem.ToString()));
+                outputTemperature.Text = String.Format("{0:f1}", converter.Convert(inputValue, fromScale.SelectedItem.ToString(), toScale.SelectedItem.ToString()));
             }
             catch (Exception error)
             {

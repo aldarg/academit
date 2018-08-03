@@ -1,32 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Academits.DargeevAleksandr
 {
     internal class TemperatureConverter
     {
-        private List<ITemperatureScale> scales = new List<ITemperatureScale>();
+        private readonly List<ITemperatureScale> scales = new List<ITemperatureScale>();
 
         public List<string> ScalesList
         {
             get
             {
-                List<string> scalesList = new List<string>();
-
-                foreach (ITemperatureScale scale in scales)
-                {
-                    scalesList.Add(scale.Name);
-                }
-
-                return scalesList;
+                return scales
+                    .Select(x => x.Name)
+                    .ToList();
             }
         }
 
         public TemperatureConverter()
         {
-            ITemperatureScale kelvinScale = new Kelvin();
-            ITemperatureScale farenheitScale = new Farenheit();
-            ITemperatureScale celsiusScale = new Celsius();
+            var kelvinScale = new KelvinScale();
+            var farenheitScale = new FarenheitScale();
+            var celsiusScale = new CelsiusScale();
 
             scales.Add(kelvinScale);
             scales.Add(farenheitScale);
@@ -35,38 +31,27 @@ namespace Academits.DargeevAleksandr
             /*
              * Add your scale classes here like this:
              * 
-             * ITemperatureScale scaleName = new ClassName();
+             * var scaleName = new ClassName();
              * scales.Add(scaleName);
              */
-
-            ITemperatureScale rankineScale = new Rankine();
-            scales.Add(rankineScale);
         }
 
-        public double GetResult(double inputValue, string inputScale, string outputScale)
+        public double Convert(double input, string inputScaleName, string outputScaleName)
         {
-            ITemperatureScale input = null;
-            ITemperatureScale output = null;
+            var inputScale = scales
+                .Where(x => x.Name == inputScaleName)
+                .First();
 
-            foreach (ITemperatureScale scale in scales)
-            {
-                if (scale.Name == inputScale)
-                {
-                    input = scale;
-                }
+            var outputScale = scales
+                .Where(x => x.Name == outputScaleName)
+                .First();
 
-                if (scale.Name == outputScale)
-                {
-                    output = scale;
-                }
-            }
-
-            if (input == null || output == null)
+            if (inputScale == null || outputScale == null)
             {
                 throw new Exception("Ошибка поиска шкалы температур.");
             }
 
-            return input.ConvertTo(inputValue, output);
+            return outputScale.ConvertFromCelsius(inputScale.ConvertToCelsius(input));
         }
     }
 }

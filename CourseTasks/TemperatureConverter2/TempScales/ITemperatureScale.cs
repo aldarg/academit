@@ -7,7 +7,7 @@
             get;
         }
 
-        double ConvertTo(double input, ITemperatureScale toScale);
-        double ConvertFrom(double input, ITemperatureScale fromScale);
+        double ConvertToCelsius(double input);
+        double ConvertFromCelsius(double input);
     }
 }

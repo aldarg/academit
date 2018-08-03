@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5EC505E7-E081-48E9-9BFF-A02A774692F2}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>TemperatureConverter2</RootNamespace>
-    <AssemblyName>TemperatureConverter2</AssemblyName>
+    <ProjectGuid>{9C6CDD2A-0D5B-478E-878C-0DC07810F574}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TemperatureConverter3</RootNamespace>
+    <AssemblyName>TemperatureConverter3</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,14 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,27 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CelsiusScale.cs" />
+    <Compile Include="ITemperatureScale.cs" />
+    <Compile Include="KelvinScale.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="TempScales\CelsiusScale.cs" />
-    <Compile Include="TempScales\FarenheitScale.cs" />
-    <Compile Include="TempScales\ITemperatureScale.cs" />
-    <Compile Include="TempScales\KelvinScale.cs" />
-    <Compile Include="TemperatureConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserInterface.Designer.cs">
-      <DependentUpon>UserInterface.cs</DependentUpon>
-    </Compile>
+    <Compile Include="TemperatureConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="UserInterface.resx">
-      <DependentUpon>UserInterface.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
