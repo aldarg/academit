@@ -5,16 +5,16 @@ namespace Academits.DargeevAleksandr
 {
     public partial class UserInterface : Form
     {
-        private TemperatureConverter converter = new TemperatureConverter();
+        private readonly TemperatureConverter _converter = new TemperatureConverter();
 
         public UserInterface()
         {
             InitializeComponent();
 
-            fromScale.Items.AddRange(converter.ScalesList.ToArray());
+            fromScale.Items.AddRange(_converter.ScalesList);
             fromScale.SelectedIndex = 0;
 
-            toScale.Items.AddRange(converter.ScalesList.ToArray());
+            toScale.Items.AddRange(_converter.ScalesList);
             toScale.SelectedIndex = 1;
         }
 
@@ -28,7 +28,7 @@ namespace Academits.DargeevAleksandr
 
             try
             {
-                outputTemperature.Text = String.Format("{0:f1}", converter.Convert(inputValue, fromScale.SelectedItem.ToString(), toScale.SelectedItem.ToString()));
+                outputTemperature.Text = $"{_converter.Convert(inputValue, fromScale.SelectedItem.ToString(), toScale.SelectedItem.ToString()):f1}";
             }
             catch (Exception error)
             {

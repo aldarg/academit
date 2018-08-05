@@ -6,17 +6,11 @@ namespace Academits.DargeevAleksandr
 {
     internal class TemperatureConverter
     {
-        private readonly List<ITemperatureScale> scales = new List<ITemperatureScale>();
+        private readonly List<ITemperatureScale> _scales = new List<ITemperatureScale>();
 
-        public List<string> ScalesList
-        {
-            get
-            {
-                return scales
-                    .Select(x => x.Name)
-                    .ToList();
-            }
-        }
+        public string[] ScalesList => _scales
+            .Select(x => x.Name)
+            .ToArray();
 
         public TemperatureConverter()
         {
@@ -24,9 +18,9 @@ namespace Academits.DargeevAleksandr
             var farenheitScale = new FarenheitScale();
             var celsiusScale = new CelsiusScale();
 
-            scales.Add(kelvinScale);
-            scales.Add(farenheitScale);
-            scales.Add(celsiusScale);
+            _scales.Add(kelvinScale);
+            _scales.Add(farenheitScale);
+            _scales.Add(celsiusScale);
 
             /*
              * Add your scale classes here like this:
@@ -38,13 +32,11 @@ namespace Academits.DargeevAleksandr
 
         public double Convert(double input, string inputScaleName, string outputScaleName)
         {
-            var inputScale = scales
-                .Where(x => x.Name == inputScaleName)
-                .First();
+            var inputScale = _scales
+                .First(x => x.Name == inputScaleName);
 
-            var outputScale = scales
-                .Where(x => x.Name == outputScaleName)
-                .First();
+            var outputScale = _scales
+                .First(x => x.Name == outputScaleName);
 
             if (inputScale == null || outputScale == null)
             {
