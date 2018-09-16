@@ -1,4 +1,4 @@
-﻿namespace Academits.DargeevAleksandr
+﻿namespace Academits.DargeevAleksandr.MinesweeperModel
 {
     public interface IView
     {
@@ -15,7 +15,9 @@
         void MarkCell(int x, int y);
         void RefreshField();
         void EndGame(bool win);
-        void ShowHighscores();
+        string EndHighscoredGame(int time);
+        void AskNewGame();
+        void ShowHighScore();
         void Settings();
         void About();
         void Exit();

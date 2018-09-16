@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Mines.Properties {
+namespace Academits.DargeevAleksandr.MinesweeperGUI.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Mines.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mines.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Academits.DargeevAleksandr.MinesweeperGUI.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -106,6 +106,26 @@ namespace Mines.Properties {
         internal static System.Drawing.Bitmap bombmissed {
             get {
                 object obj = ResourceManager.GetObject("bombmissed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bombquestion {
+            get {
+                object obj = ResourceManager.GetObject("bombquestion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bombquestion_selected {
+            get {
+                object obj = ResourceManager.GetObject("bombquestion_selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

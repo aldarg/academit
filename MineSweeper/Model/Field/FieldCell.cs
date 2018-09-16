@@ -1,4 +1,4 @@
-﻿namespace Academits.DargeevAleksandr
+﻿namespace Academits.DargeevAleksandr.MinesweeperModel
 {
     internal class FieldCell
     {

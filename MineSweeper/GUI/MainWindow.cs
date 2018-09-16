@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Academits.DargeevAleksandr;
+using Academits.DargeevAleksandr.MinesweeperModel;
 
-namespace Mines
+namespace Academits.DargeevAleksandr.MinesweeperGUI
 {
     public partial class MainWindow : Form, IView
     {
@@ -15,7 +15,7 @@ namespace Mines
         public int FieldWidth { get; set; }
         public int MinesTotal { get; set; }
         public ViewCellStatus[,] CellStatuses { get; set; }
-        public int TimerCount { get; set; }
+        public int TimerCount => _presenter.GetTimerCount();
         public int MinesLeft { get; set; }
 
         private bool _mRight;
@@ -46,7 +46,9 @@ namespace Mines
                 {"missed", Properties.Resources.bombmissed},
                 {"disarmed", Properties.Resources.bombdisarmed },
                 {"selected", Properties.Resources.closed_selected },
-                {"flag_selected", Properties.Resources.bombflagged_selected }
+                {"flag_selected", Properties.Resources.bombflagged_selected },
+                {"question", Properties.Resources.bombquestion },
+                {"question_selected", Properties.Resources.bombquestion_selected }
             };
 
             _timer.Interval = 1000;
@@ -57,7 +59,6 @@ namespace Mines
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            ++TimerCount;
             timerWindow.Text = TimerCount.ToString();
         }
 
@@ -87,15 +88,14 @@ namespace Mines
             }
 
             _timer.Stop();
-            TimerCount = 0;
-            timerWindow.Text = TimerCount.ToString();
+            timerWindow.Text = "0";
             minesLeftWindow.Text = MinesLeft.ToString();
 
             CellStatuses = new ViewCellStatus[FieldWidth, FieldHeight];
 
-            for (int i = 0; i < FieldWidth; ++i)
+            for (var i = 0; i < FieldWidth; ++i)
             {
-                for (int j = 0; j < FieldHeight; ++j)
+                for (var j = 0; j < FieldHeight; ++j)
                 {
                     var button = new Button
                     {
@@ -120,7 +120,7 @@ namespace Mines
 
         public void OpenCell(int x, int y)
         {
-            if (TimerCount == 0)
+            if (!_timer.Enabled)
             {
                 _timer.Start();
             }
@@ -142,9 +142,9 @@ namespace Mines
         {
             minesLeftWindow.Text = MinesLeft.ToString();
 
-            for (int i = 0; i < FieldWidth; ++i)
+            for (var i = 0; i < FieldWidth; ++i)
             {
-                for (int j = 0; j < FieldHeight; ++j)
+                for (var j = 0; j < FieldHeight; ++j)
                 {
                     RefreshCell(i, j);
                 }
@@ -155,7 +155,7 @@ namespace Mines
         {
             _timer.Stop();
 
-            var result = MessageBox.Show(win ? "Вы выиграли! Начать сначала?" : "Вы проиграли! Начать сначала?", "Игра окончена", MessageBoxButtons.YesNo);
+            var result = MessageBox.Show(win ? $"Вы выиграли. Время: {TimerCount} сек! Начать сначала?" : "Вы проиграли! Начать сначала?", "Игра окончена", MessageBoxButtons.YesNo);
 
             if (result == DialogResult.Yes)
             {
@@ -163,39 +163,30 @@ namespace Mines
             }
         }
 
-        public void ShowHighscores()
+        public string EndHighscoredGame(int time)
         {
-            var result = new StringBuilder();
-            var highscores = _presenter.GetHighScores();
+            _timer.Stop();
 
-            if (highscores.Count == 0)
+            var input = new EndHighscoredGameForm();
+            var name = input.ShowInput(time);
+
+            return name;
+        }
+
+        public void AskNewGame()
+        {
+            var result = MessageBox.Show("Начать новую игру?", "Новая игра", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
             {
-                result.Append("Таблица рекордов пока пустая.");
-                MessageBox.Show(result.ToString(), "Таблица рекордов", MessageBoxButtons.OK);
+                _presenter.NewGame();
             }
-            else
-            {
-                foreach (var pair in highscores)
-                {
-                    result
-                        .Append(pair.Key.ToString())
-                        .Append(": ")
-                        .Append(pair.Value.ToString())
-                        .Append(" секунд.")
-                        .Append(Environment.NewLine);
-                }
+        }
 
-                result
-                    .Append(Environment.NewLine)
-                    .Append("Если хотите обнулить результаты, нажмите Yes.");
-
-                var isResetHighscore = MessageBox.Show(result.ToString(), "Таблица рекордов", MessageBoxButtons.YesNo);
-
-                if (isResetHighscore == DialogResult.Yes)
-                {
-                    _presenter.ResetHighscores();
-                }
-            }
+        public void ShowHighScore()
+        {
+            var highscoresForm = new HighscoreForm();
+            highscoresForm.Show(_presenter);
         }
 
         public void Settings()
@@ -234,6 +225,13 @@ namespace Mines
                     if (btn != null)
                     {
                         btn.BackgroundImage = _images["flag"];
+                    }
+                    break;
+                case ViewCellStatus.Questioned:
+                    btn = minesField.GetControlFromPosition(x, y) as Button;
+                    if (btn != null)
+                    {
+                        btn.BackgroundImage = _images["question"];
                     }
                     break;
                 case ViewCellStatus.Mined:
@@ -325,6 +323,10 @@ namespace Mines
                 case MouseButtons.Right:
                     _mRight = true;
                     break;
+                case MouseButtons.Middle:
+                    _mLeft = true;
+                    _mRight = true;
+                    break;
             }
 
             if (!_mLeft || !_mRight)
@@ -349,7 +351,18 @@ namespace Mines
             var x = minesField.GetPositionFromControl(btn).Column;
             var y = minesField.GetPositionFromControl(btn).Row;
 
-            btn.BackgroundImage = (CellStatuses[x, y] == ViewCellStatus.Closed) ? _images["closed"] : _images["flag"];
+            switch (CellStatuses[x, y])
+            {
+                case ViewCellStatus.Closed:
+                    btn.BackgroundImage = _images["closed"];
+                    break;
+                case ViewCellStatus.Questioned:
+                    btn.BackgroundImage = _images["question"];
+                    break;
+                case ViewCellStatus.Marked:
+                    btn.BackgroundImage = _images["flag"];
+                    break;
+            }
         }
 
         private void Button_MouseEnter(object sender, EventArgs e)
@@ -362,7 +375,18 @@ namespace Mines
             var x = minesField.GetPositionFromControl(btn).Column;
             var y = minesField.GetPositionFromControl(btn).Row;
 
-            btn.BackgroundImage = (CellStatuses[x, y] == ViewCellStatus.Closed) ? _images["selected"] : _images["flag_selected"];
+            switch ( CellStatuses[x, y])
+            {
+                case ViewCellStatus.Closed:
+                    btn.BackgroundImage = _images["selected"];
+                    break;
+                case ViewCellStatus.Questioned:
+                    btn.BackgroundImage = _images["question_selected"];
+                    break;
+                case ViewCellStatus.Marked:
+                    btn.BackgroundImage = _images["flag_selected"];
+                    break;
+            }
         }
 
         private void ButtonClick(object sender, MouseEventArgs click)
@@ -396,17 +420,17 @@ namespace Mines
             Settings();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowHighscores();
+            ShowHighScore();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About();
         }
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Exit();
         }

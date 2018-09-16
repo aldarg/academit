@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Academits.DargeevAleksandr
+namespace Academits.DargeevAleksandr.MinesweeperModel
 {
     internal class Field
     {
@@ -16,6 +16,8 @@ namespace Academits.DargeevAleksandr
         public int ClosedCells { get; set; }
         public int GoodMarks { get; set; }
 
+        public DateTime BeginTime { get; set; }
+
         public Field(GameSettings settings)
         {
             Width = settings.FieldWidth;
@@ -28,9 +30,9 @@ namespace Academits.DargeevAleksandr
 
             Cells = new FieldCell[Width, Height];
 
-            for (int i = 0; i < Width; ++i)
+            for (var i = 0; i < Width; ++i)
             {
-                for (int j = 0; j < Height; ++j)
+                for (var j = 0; j < Height; ++j)
                 {
                     Cells[i, j] = new FieldCell
                     {
@@ -45,7 +47,7 @@ namespace Academits.DargeevAleksandr
         {
             var randomizer = new Random();
 
-            for (int i = 1; i <= MinesCount; ++i)
+            for (var i = 1; i <= MinesCount; ++i)
             {
                 int j;
                 int k;
@@ -64,9 +66,9 @@ namespace Academits.DargeevAleksandr
 
         public void PutNumbers()
         {
-            for (int i = 0; i < Width; ++i)
+            for (var i = 0; i < Width; ++i)
             {
-                for (int j = 0; j < Height; ++j)
+                for (var j = 0; j < Height; ++j)
                 {
                     if (!Cells[i, j].IsMined)
                     {
@@ -80,9 +82,9 @@ namespace Academits.DargeevAleksandr
         {
             var result = new List<FieldCell>();
 
-            for (int i = -1; i <= 1; ++i)
+            for (var i = -1; i <= 1; ++i)
             {
-                for (int j = -1; j <= 1; ++j)
+                for (var j = -1; j <= 1; ++j)
                 {
                     if (x + i < 0 || x + i >= Width || y + j < 0 || y + j >= Height)
                     {

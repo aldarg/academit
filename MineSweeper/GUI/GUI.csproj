@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FBBAB661-126C-4A13-B73D-A98B54766C68}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Mines</RootNamespace>
-    <AssemblyName>Mines</AssemblyName>
+    <RootNamespace>Academits.DargeevAleksandr.MinesweeperGUI</RootNamespace>
+    <AssemblyName>MinesweeperGUI</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConsoleApp2">
-      <HintPath>..\ConsoleApp2\bin\Debug\ConsoleApp2.dll</HintPath>
+    <Reference Include="MinesweeperModel">
+      <HintPath>..\Model\bin\Debug\MinesweeperModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,11 +48,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HighscoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HighscoreForm.Designer.cs">
+      <DependentUpon>HighscoreForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EndHighscoredGameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EndHighscoredGameForm.Designer.cs">
+      <DependentUpon>EndHighscoredGameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,8 +74,14 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="HighscoreForm.resx">
+      <DependentUpon>HighscoreForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EndHighscoredGameForm.resx">
+      <DependentUpon>EndHighscoredGameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -147,6 +165,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="images\mines_counter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\bombquestion.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\bombquestion_selected.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

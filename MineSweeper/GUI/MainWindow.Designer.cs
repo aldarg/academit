@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace Mines
+﻿namespace Academits.DargeevAleksandr.MinesweeperGUI
 {
     partial class MainWindow
     {
@@ -105,43 +103,47 @@ namespace Mines
             this.exitToolStripMenuItem,
             this.exitToolStripMenuItem1});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
-            this.toolStripMenuItem1.Text = "File";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(46, 20);
+            this.toolStripMenuItem1.Text = "Игра";
             // 
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.newGameToolStripMenuItem.Text = "New Game";
+            this.newGameToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.newGameToolStripMenuItem.Text = "Новая игра";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.NewGameToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.settingsToolStripMenuItem.Text = "Настройки";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.exitToolStripMenuItem.Text = "Score";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.exitToolStripMenuItem.Text = "Таблица рекордов";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(132, 22);
-            this.exitToolStripMenuItem1.Text = "Exit";
-            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem1.Text = "Выход";
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.ExitToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.aboutToolStripMenuItem.Text = "О программе";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -199,7 +201,7 @@ namespace Mines
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox2.Image = global::Mines.Properties.Resources.mines_counter;
+            this.pictureBox2.Image = global::Academits.DargeevAleksandr.MinesweeperGUI.Properties.Resources.mines_counter;
             this.pictureBox2.Location = new System.Drawing.Point(369, 4);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.pictureBox2.Name = "pictureBox2";

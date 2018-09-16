@@ -1,38 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.CodeDom;
+using System.Linq;
 using System.Collections.Generic;
 
-namespace Academits.DargeevAleksandr
+namespace Academits.DargeevAleksandr.MinesweeperModel
 {
-    public enum ViewCellStatus
-    {
-        Closed,
-        Blank,
-        Numbered1,
-        Numbered2,
-        Numbered3,
-        Numbered4,
-        Numbered5,
-        Numbered6,
-        Numbered7,
-        Numbered8,
-        Mined,
-        Marked,
-        Exploded,
-        BadMark,
-        Disarmed
-    }
-
     public class Presenter
     {
         private Field _field;
         private readonly IView _view;
-        private readonly Score _scores;
+        private readonly Highscores _highscores;
         private GameSettings _settings = new GameSettings(GameSettings.DifficultyLevels.Novice);
 
         public Presenter(IView view)
         {
             _field = new Field(_settings);
-            _scores = new Score();
+            _highscores = new Highscores();
             _view = view;
 
             _view.FieldHeight = _field.Height;
@@ -82,6 +65,7 @@ namespace Academits.DargeevAleksandr
             {
                 _field.PutMines(x, y);
                 _field.PutNumbers();
+                _field.BeginTime = DateTime.Now;
             }
 
             if (_field.Cells[x, y].IsMined)
@@ -228,7 +212,7 @@ namespace Academits.DargeevAleksandr
             if (_field.Cells[x, y].IsMarked)
             {
                 _field.Cells[x, y].IsMarked = false;
-                _view.CellStatuses[x, y] = ViewCellStatus.Closed;
+                _view.CellStatuses[x, y] = ViewCellStatus.Questioned;
                 ++_view.MinesLeft;
 
                 if (_field.Cells[x, y].IsMined)
@@ -238,13 +222,20 @@ namespace Academits.DargeevAleksandr
             }
             else
             {
-                _field.Cells[x, y].IsMarked = true;
-                _view.CellStatuses[x, y] = ViewCellStatus.Marked;
-                --_view.MinesLeft;
-
-                if (_field.Cells[x, y].IsMined)
+                if (_view.CellStatuses[x, y] == ViewCellStatus.Questioned)
                 {
-                    ++_field.GoodMarks;
+                    _view.CellStatuses[x, y] = ViewCellStatus.Closed;
+                }
+                else
+                {
+                    _field.Cells[x, y].IsMarked = true;
+                    _view.CellStatuses[x, y] = ViewCellStatus.Marked;
+                    --_view.MinesLeft;
+
+                    if (_field.Cells[x, y].IsMined)
+                    {
+                        ++_field.GoodMarks;
+                    }
                 }
             }
 
@@ -261,14 +252,21 @@ namespace Academits.DargeevAleksandr
 
         private void EndGame(bool win)
         {
-            if (win)
-            {
-                _scores.AddScore(_settings.DifficultyLevel, _view.TimerCount);
-                _scores.SaveScore();
-            }
-
+            var time = GetTimerCount();
             OpenAllCells();
-            _view.EndGame(win);
+
+            if (win && _highscores.CheckResult(_settings.DifficultyLevel, GetTimerCount()))
+            {
+                var name = _view.EndHighscoredGame(time);
+                _highscores.AddResult(_settings.DifficultyLevel, name, time);
+                _highscores.SaveScore();
+
+                _view.AskNewGame();
+            }
+            else
+            {
+                _view.EndGame(win);
+            }
         }
 
         private void OpenAllCells()
@@ -304,22 +302,66 @@ namespace Academits.DargeevAleksandr
             _view.RefreshField();
         }
 
-        public Dictionary<GameSettings.DifficultyLevels, int> GetHighScores()
+        public Dictionary<GameSettings.DifficultyLevels, List<Score>> GetHighScore()
         {
-            var result = new Dictionary<GameSettings.DifficultyLevels, int>();
+            var highscore = _highscores.GetHighscores();
+            var result = new Dictionary<GameSettings.DifficultyLevels, List<Score>>();
 
-            foreach (var level in _scores.Scores.Keys)
+            var levels = highscore.Select(x => x.Level).Distinct().ToList();
+            foreach (var level in levels)
             {
-                result.Add(level, _scores.Scores[level].Min());
+                var levelResults = highscore.Where(x => x.Level == level).OrderBy(x => x.Result).ToList();
+                result.Add(level, levelResults);
             }
 
             return result;
         }
 
-        public void ResetHighscores()
+        public void ResetHighScore()
         {
-            _scores.Scores.Clear();
-            _scores.SaveScore();
+            _highscores.Reset();
+            _highscores.SaveScore();
+        }
+
+        public int[] GetCustomWidthLimit()
+        {
+            var minWidth = _settings.LimitCustomSettings["minWidth"];
+            var maxWidth = _settings.LimitCustomSettings["maxWidth"];
+
+            return new[] { minWidth, maxWidth };
+        }
+
+        public int[] GetCustomHeightLimit()
+        {
+            var minHeight = _settings.LimitCustomSettings["minHeight"];
+            var maxHeight = _settings.LimitCustomSettings["maxHeight"];
+
+            return new[] { minHeight, maxHeight };
+        }
+
+        public int[] GetCustomMinesCountLimit()
+        {
+            var minMinesCount = _settings.LimitCustomSettings["minMinesCount"];
+            var maxMinesCount = _settings.LimitCustomSettings["maxMinesCount"];
+
+            return new[] { minMinesCount, maxMinesCount };
+        }
+
+        public int CheckCustomMinesCountRedundancy(int widthInput, int heightInput, int minesInput)
+        {
+            var maxMinesCount = (widthInput - 1) * (heightInput - 1);
+
+            if (minesInput < maxMinesCount)
+            {
+                return minesInput;
+            }
+
+            return maxMinesCount - 1;
+        }
+
+        public int GetTimerCount()
+        {
+            return (int)DateTime.Now.Subtract(_field.BeginTime).TotalSeconds;
         }
     }
 }

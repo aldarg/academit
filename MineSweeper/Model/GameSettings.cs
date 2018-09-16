@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Academits.DargeevAleksandr
+namespace Academits.DargeevAleksandr.MinesweeperModel
 {
     public class GameSettings
     {
@@ -19,6 +19,16 @@ namespace Academits.DargeevAleksandr
             {DifficultyLevels.Novice, new[] { 9, 9, 10 } },
             {DifficultyLevels.Medium, new[] { 16, 16, 40 } },
             {DifficultyLevels.Professional, new[] { 30, 16, 99 } },
+        };
+
+        public Dictionary<string, int> LimitCustomSettings = new Dictionary<string, int>()
+        {
+            {"minWidth", 9},
+            {"maxWidth", 30 },
+            {"minHeight", 9 },
+            {"maxHeight", 64 },
+            {"minMinesCount", 10 },
+            {"maxMinesCount", 668 }
         };
 
         public DifficultyLevels DifficultyLevel { get; }

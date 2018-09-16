@@ -1,4 +1,4 @@
-﻿namespace Academits.DargeevAleksandr
+﻿namespace Academits.DargeevAleksandr.MinesweeperGUI
 {
     partial class SettingsForm
     {
@@ -101,7 +101,7 @@
             this.heightInput.Size = new System.Drawing.Size(52, 20);
             this.heightInput.TabIndex = 4;
             this.heightInput.Text = "9";
-            this.heightInput.Leave += HeightInput_Leave;
+            this.heightInput.Leave += new System.EventHandler(this.Input_Leave);
             // 
             // label2
             // 
@@ -119,7 +119,7 @@
             this.widthInput.Size = new System.Drawing.Size(52, 20);
             this.widthInput.TabIndex = 5;
             this.widthInput.Text = "9";
-            this.widthInput.Leave += WidthInput_Leave;
+            this.widthInput.Leave += new System.EventHandler(this.Input_Leave);
             // 
             // minesCountInput
             // 
@@ -128,7 +128,7 @@
             this.minesCountInput.Size = new System.Drawing.Size(52, 20);
             this.minesCountInput.TabIndex = 6;
             this.minesCountInput.Text = "10";
-            this.minesCountInput.Leave += MinesCountInput_Leave;
+            this.minesCountInput.Leave += new System.EventHandler(this.Input_Leave);
             // 
             // radioButtonCustom
             // 
@@ -185,6 +185,7 @@
             this.OkButton.TabIndex = 1;
             this.OkButton.Text = "ОК";
             this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // cancelButton
             // 
@@ -210,7 +211,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsForm";
-            this.Text = "SettingsForm";
+            this.Text = "Настройки";
             this.levelSettings.ResumeLayout(false);
             this.levelSettings.PerformLayout();
             this.customSettingsGroup.ResumeLayout(false);
