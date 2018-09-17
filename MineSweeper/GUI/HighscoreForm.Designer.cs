@@ -35,7 +35,6 @@
             this.timeOutput = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
-            this.scoresLabel = new System.Windows.Forms.Label();
             this.scores.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,9 +42,9 @@
             // 
             this.levelsList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.levelsList.HideSelection = false;
-            this.levelsList.Location = new System.Drawing.Point(13, 81);
+            this.levelsList.Location = new System.Drawing.Point(15, 19);
             this.levelsList.Name = "levelsList";
-            this.levelsList.Size = new System.Drawing.Size(249, 97);
+            this.levelsList.Size = new System.Drawing.Size(249, 75);
             this.levelsList.TabIndex = 0;
             this.levelsList.UseCompatibleStateImageBehavior = false;
             this.levelsList.View = System.Windows.Forms.View.List;
@@ -57,7 +56,7 @@
             this.scores.Controls.Add(this.nameOutput);
             this.scores.Controls.Add(this.timeOutput);
             this.scores.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.scores.Location = new System.Drawing.Point(279, 74);
+            this.scores.Location = new System.Drawing.Point(281, 12);
             this.scores.Name = "scores";
             this.scores.Size = new System.Drawing.Size(390, 146);
             this.scores.TabIndex = 1;
@@ -100,50 +99,40 @@
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(303, 264);
+            this.okButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.okButton.Location = new System.Drawing.Point(395, 178);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.Size = new System.Drawing.Size(110, 40);
             this.okButton.TabIndex = 2;
-            this.okButton.Text = "OK";
+            this.okButton.Text = "Закрыть";
             this.okButton.UseVisualStyleBackColor = true;
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(96, 197);
+            this.resetButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.resetButton.Location = new System.Drawing.Point(542, 178);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(75, 23);
+            this.resetButton.Size = new System.Drawing.Size(110, 40);
             this.resetButton.TabIndex = 3;
             this.resetButton.Text = "Сбросить";
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.ResetButton_Click);
-            // 
-            // scoresLabel
-            // 
-            this.scoresLabel.AutoSize = true;
-            this.scoresLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.scoresLabel.Location = new System.Drawing.Point(48, 35);
-            this.scoresLabel.Name = "scoresLabel";
-            this.scoresLabel.Size = new System.Drawing.Size(178, 20);
-            this.scoresLabel.TabIndex = 4;
-            this.scoresLabel.Text = "Таблица результатов:";
             // 
             // HighscoreForm
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 319);
-            this.Controls.Add(this.scoresLabel);
+            this.ClientSize = new System.Drawing.Size(683, 239);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.scores);
             this.Controls.Add(this.levelsList);
             this.Name = "HighscoreForm";
-            this.Text = "HighscoreForm";
+            this.Text = "Таблица результатов";
             this.scores.ResumeLayout(false);
             this.scores.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -158,7 +147,6 @@
         private System.Windows.Forms.GroupBox scores;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button resetButton;
-        private System.Windows.Forms.Label scoresLabel;
         private System.Windows.Forms.Label timeOutput;
         private System.Windows.Forms.Label dateOutput;
         private System.Windows.Forms.Label nameOutput;

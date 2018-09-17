@@ -105,7 +105,7 @@ namespace Academits.DargeevAleksandr.MinesweeperGUI
                         FlatStyle = FlatStyle.Flat,
                         BackgroundImageLayout = ImageLayout.Stretch,
                         BackgroundImage = _images["closed"],
-                        TabStop = false
+                        TabStop = false,
                     };
 
                     minesField.Controls.Add(button, i, j);
@@ -402,6 +402,11 @@ namespace Academits.DargeevAleksandr.MinesweeperGUI
             switch (click.Button)
             {
                 case MouseButtons.Left:
+                    if (CellStatuses[x, y] == ViewCellStatus.Questioned)
+                    {
+                        return;
+                    }
+
                     OpenCell(x, y);
                     break;
                 case MouseButtons.Right:

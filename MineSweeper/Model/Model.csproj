@@ -7,7 +7,7 @@
     <ProjectGuid>{8F973B0D-19EC-4E88-B1F1-42CDD4A0E2ED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Academits.DargeevAleksandr.MinesweeperModel</RootNamespace>
-    <AssemblyName>MinesweeperModel</AssemblyName>
+    <AssemblyName>Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

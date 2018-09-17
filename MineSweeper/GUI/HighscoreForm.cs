@@ -27,8 +27,14 @@ namespace Academits.DargeevAleksandr.MinesweeperGUI
                 Controls.Remove(scores);
                 Controls.Remove(resetButton);
 
-                scoresLabel.Text = "Таблица результатов пока пустая.";
-                scoresLabel.Location = new Point(9, 40);
+                var noScoresLabel = new Label
+                {
+                    Text = "Рекордов нет! Ждем ваших!",
+                    Location = new Point(9, 40),
+                    AutoSize = true,
+                    Font = new Font("Arial", 13)
+                };
+                Controls.Add(noScoresLabel);
 
                 Width = 300;
                 Height = 200;
