@@ -25,17 +25,6 @@ namespace VectorTests
             Assert.That(Vector.GetScalarProduct(vector1, vector2), Is.EqualTo(8));
         }
 
-        [Test]
-        public void NullVectorCheck()
-        {
-            var vector1 = new Vector(2);
-            var vector2 = new Vector(new double[] { 2, 3 });
-
-            vector1 = null;
-
-            Assert.That(Vector.GetScalarProduct(vector1, vector2), Throws.Exception);
-        }
-
         // тестируем Equals
         [Test]
         public void TrueEquals()
@@ -94,16 +83,6 @@ namespace VectorTests
             var expected = new Vector(new double[] { 3, 5, 3, 4 });
 
             Assert.That(vector1, Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void NullVectorAdd()
-        {
-            var vector1 = new Vector(new double[] { 2, 3 });
-            var vector2 = new Vector(2);
-            vector2 = null;
-
-            Assert.That(() => (vector1.Add(vector2)), Throws.Exception);
         }
     }
 }
