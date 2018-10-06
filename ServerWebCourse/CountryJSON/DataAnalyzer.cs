@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CountryJSON
 {
@@ -19,27 +21,22 @@ namespace CountryJSON
                 Console.WriteLine($"Не получается скачать файл с данными. Ошибка: {e.Message}.");
             }
 
-            dynamic countries = JsonConvert.DeserializeObject(File.ReadAllText("countries.json"));
+            var parsedJson = JArray.Parse(File.ReadAllText("countries.json"));
+            var populationTotal = parsedJson.Select(x => (int) x["population"]).Sum();
 
-            Console.WriteLine("Список используемых валют:");
+            Console.WriteLine($"Общая численность населения всех стран: {populationTotal} человек.");
 
-            var populationTotal = 0;
-            foreach (var country in countries)
-            {
-                int.TryParse(country.population.ToString(), out int population);
-                populationTotal += population;
-
-                foreach (var currency in country.currencies)
-                {
-                    if (currency.name.ToString() != string.Empty)
-                    {
-                        Console.WriteLine($"- {currency.name.ToString()}");
-                    }
-                }
-            }
+            var currencyJson = parsedJson.Select(x => x["currencies"]).Children();
+            var currencyList = currencyJson.GroupBy(x => x["code"]).Select(x => x.FirstOrDefault());
+            var currencyNameList = currencyList.Select(x => (string) x["name"]).OrderBy(x => x).ToList();
 
             Console.WriteLine(Environment.NewLine);
-            Console.WriteLine($"Общая численность населения всех стран: {populationTotal} человек.");
+            Console.WriteLine("Список всех используемых валют:");
+
+            foreach (var currency in currencyNameList)
+            {
+                Console.WriteLine(currency);
+            }
         }
     }
 }

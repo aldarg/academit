@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Range", "Range\Range.csproj", "{78ED51BD-7C05-4AEF-90A6-78184788EAF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vector", "Vector\Vector.csproj", "{261DF63C-89AC-48FD-AA60-F281095E5376}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes", "Shapes\Shapes.csproj", "{7301C441-9F35-4946-AA4F-55D9EA5ED839}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix", "Matrix\Matrix.csproj", "{9EF40966-5AC0-4646-BD49-753BB4D1C261}"
@@ -45,6 +43,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemperatureConverter3", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lecture180819_lambdas", "lecture180819_lambdas\lecture180819_lambdas.csproj", "{FF336091-D6CB-4DEF-9E4F-2BE591EC9FDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vector", "Vector\Vector.csproj", "{261DF63C-89AC-48FD-AA60-F281095E5376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorTests", "VectorTests\VectorTests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +57,6 @@ Global
 		{78ED51BD-7C05-4AEF-90A6-78184788EAF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78ED51BD-7C05-4AEF-90A6-78184788EAF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78ED51BD-7C05-4AEF-90A6-78184788EAF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{261DF63C-89AC-48FD-AA60-F281095E5376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{261DF63C-89AC-48FD-AA60-F281095E5376}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{261DF63C-89AC-48FD-AA60-F281095E5376}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{261DF63C-89AC-48FD-AA60-F281095E5376}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7301C441-9F35-4946-AA4F-55D9EA5ED839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7301C441-9F35-4946-AA4F-55D9EA5ED839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7301C441-9F35-4946-AA4F-55D9EA5ED839}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -135,6 +133,14 @@ Global
 		{FF336091-D6CB-4DEF-9E4F-2BE591EC9FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF336091-D6CB-4DEF-9E4F-2BE591EC9FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF336091-D6CB-4DEF-9E4F-2BE591EC9FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261DF63C-89AC-48FD-AA60-F281095E5376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261DF63C-89AC-48FD-AA60-F281095E5376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261DF63C-89AC-48FD-AA60-F281095E5376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261DF63C-89AC-48FD-AA60-F281095E5376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
