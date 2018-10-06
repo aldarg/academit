@@ -1,7 +1,7 @@
 ﻿using Academits.DargeevAleksandr;
 using NUnit.Framework;
 
-namespace VectorTests
+namespace VectorTest
 {
     [TestFixture]
     public class VectorTest

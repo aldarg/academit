@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lecture180819_lambdas", "le
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vector", "Vector\Vector.csproj", "{261DF63C-89AC-48FD-AA60-F281095E5376}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorTests", "VectorTests\VectorTests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorTest", "VectorTests\VectorTest.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
