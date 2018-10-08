@@ -6,6 +6,8 @@ namespace VectorTest
     [TestFixture]
     public class VectorTest
     {
+        private const double Epsilon = 1.0e-10;
+
         // тестируем скалярное произведение
         [Test]
         public void SameDimensionsVectorsMultiply()
@@ -13,7 +15,7 @@ namespace VectorTest
             var vector1 = new Vector(new double[] { 1, 2, 3, 4 });
             var vector2 = new Vector(new double[] { 2, 3, 4, 5 });
 
-            Assert.That(Vector.GetScalarProduct(vector1, vector2), Is.EqualTo(40));
+            Assert.That(Vector.GetScalarProduct(vector1, vector2), Is.InRange(40 - Epsilon, 40 + Epsilon));
         }
 
         [Test]
@@ -22,7 +24,7 @@ namespace VectorTest
             var vector1 = new Vector(new double[] { 1, 2, 3, 4 });
             var vector2 = new Vector(new double[] { 2, 3 });
 
-            Assert.That(Vector.GetScalarProduct(vector1, vector2), Is.EqualTo(8));
+            Assert.That(Vector.GetScalarProduct(vector1, vector2), Is.InRange(8 - Epsilon, 8 + Epsilon));
         }
 
         // тестируем Equals
