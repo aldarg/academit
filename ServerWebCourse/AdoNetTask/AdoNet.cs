@@ -17,7 +17,9 @@ namespace AdoNetTask
                 Console.WriteLine("Connection state: " + connection.State);
                 Console.WriteLine();
 
-                var sql = "SELECT COUNT(*) FROM Product";
+                var sql = @"
+                    SELECT COUNT(*) FROM Product
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
                     var productsCount = (int) command.ExecuteScalar();
@@ -25,38 +27,95 @@ namespace AdoNetTask
                 }
                 Console.WriteLine();
 
-                sql = "INSERT INTO [dbo].[Category]([Name]) VALUES (N'Cheese')";
+                sql = @"
+                    INSERT INTO [dbo].[Category]([Name])
+                    VALUES (@newCategory)
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
+                    command.Parameters.Add(new SqlParameter("@newCategory", "Cheese")
+                    {
+                        SqlDbType = SqlDbType.NVarChar
+                    });
+
                     command.ExecuteNonQuery();
                 }
 
                 int cheeseCategoryId;
-                sql = "SELECT Id FROM Category WHERE Name=N'Cheese'";
+                sql = @"
+                    SELECT TOP(1) Id
+                    FROM Category
+                    WHERE Name = N'Cheese'
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
                     cheeseCategoryId = (int)command.ExecuteScalar();
                 }
 
-                sql = $"INSERT INTO [dbo].[Product]([Name], [CategoryId], [Price]) VALUES (N'Parmegiano', {cheeseCategoryId}, 990)";
+                sql = @"
+                    INSERT INTO [dbo].[Product]([Name], [CategoryId], [Price])
+                    VALUES (@newProductName, @newProductCategory, @newProductPrice)
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
+                    command.Parameters.Add(new SqlParameter("@newProductName", "Parmegiano")
+                    {
+                        SqlDbType = SqlDbType.NVarChar
+                    });
+                    command.Parameters.Add(new SqlParameter("@newProductCategory", cheeseCategoryId)
+                    {
+                        SqlDbType = SqlDbType.Int
+                    });
+                    command.Parameters.Add(new SqlParameter("@newProductPrice", 990)
+                    {
+                        SqlDbType = SqlDbType.Int
+                    });
+
                     command.ExecuteNonQuery();
                 }
 
-                sql = "UPDATE Product SET Name=N'Parmegiano Regiano' WHERE Name=N'Parmegiano'";
+                sql = @"
+                    UPDATE Product
+                    SET Name = @productNewName
+                    WHERE Name = @productOldName
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
+                    command.Parameters.Add(new SqlParameter("@productOldName", "Parmegiano")
+                    {
+                        SqlDbType = SqlDbType.NVarChar
+                    });
+                    command.Parameters.Add(new SqlParameter("@productNewName", "Parmegiano Regiano")
+                    {
+                        SqlDbType = SqlDbType.NVarChar
+                    });
+
                     command.ExecuteNonQuery();
                 }
 
-                sql = "DELETE FROM Product WHERE Name=N'Parmegiano Regiano'";
+                sql = @"
+                    DELETE FROM Product
+                    WHERE Name = @productName
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
+                    command.Parameters.Add(new SqlParameter("@productName", "Parmegiano Regiano")
+                    {
+                        SqlDbType = SqlDbType.NVarChar
+                    });
+
                     command.ExecuteNonQuery();
                 }
 
-                sql = "SELECT p.Name AS N'Продукт', c.Name AS N'Категория', p.Price AS N'Цена' FROM Product AS p JOIN Category AS c ON p.CategoryId = c.Id";
+                sql = @"
+                    SELECT
+                        p.Name AS N'Продукт',
+                        c.Name AS N'Категория',
+                        p.Price AS N'Цена'
+                    FROM Product AS p
+                    INNER JOIN Category AS c
+                    ON p.CategoryId = c.Id
+                ";
                 using (var command = new SqlCommand(sql, connection))
                 {
                     using (var reader = command.ExecuteReader())

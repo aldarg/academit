@@ -22,7 +22,7 @@ namespace TransactionsTask
 
                 //try
                 //{
-                //    var sql = "INSERT INTO Category(Name) VALUES (N‘Dry meat’)";
+                //    var sql = "INSERT INTO Category(Name) VALUES (N'Dry meat')";
                 //    using (var command = new SqlCommand(sql, connection))
                 //    {
                 //        command.Transaction = transaction;
