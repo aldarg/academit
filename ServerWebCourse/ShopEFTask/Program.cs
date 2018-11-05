@@ -26,29 +26,41 @@ namespace ShopEFTask
                 db.SaveChanges();
 
                 // LINQ Запросы
-                var productOrdersCount = db.OrderProducts
-                                            .GroupBy(x => x.ProductId)
-                                            .Select(x => x.Count())
-                                            .Max();
-                var mostPopularProducts = db.OrderProducts
-                                            .GroupBy(x => x.ProductId)
-                                            .Where(x => x.Count() == productOrdersCount)
-                                            .Select(x => x.FirstOrDefault().Product.Name)
-                                            .ToArray();
+                //var productOrdersCount = db.OrderProducts
+                //                            .GroupBy(x => x.ProductId)
+                //                            .Max(x => x.Count());
+                //var mostPopularProducts = db.OrderProducts
+                //                            .GroupBy(x => x.ProductId)
+                //                            .Where(x => x.Count() == productOrdersCount)
+                //                            .Select(x => x.FirstOrDefault().Product.Name)
+                //                            .ToArray();
+
+                var productsSold = db.OrderProducts
+                    .GroupBy(x => x.Product)
+                    .Select(x => new
+                    {
+                        x.Key,
+                        TotalQuantity = x.Sum(y => y.Quantity)
+                    });
+                var productsSoldMaxQuantity = productsSold.Max(x => x.TotalQuantity);
+                var mostPopularProducts = productsSold
+                    .Where(x => x.TotalQuantity == productsSoldMaxQuantity)
+                    .Select(x => x.Key)
+                    .ToArray();
 
                 Console.WriteLine("Самые часто покупаемые товары:");
                 foreach (var item in mostPopularProducts)
                 {
-                    Console.WriteLine(item);
+                    Console.WriteLine(item.Name);
                 }
 
                 var customersWithSum = db.OrderProducts
                                             .GroupBy(x => x.Order.Customer)
                                             .Select(x => new
                                             {
-                                                LastName = x.Key.LastName,
-                                                FirstName = x.Key.FirstName,
-                                                Sum = x.Select(y => y.Quantity * y.Product.Price).Sum()
+                                                x.Key.LastName,
+                                                x.Key.FirstName,
+                                                Sum = x.Sum(y => y.Quantity * y.Product.Price)
                                             })
                                             .ToArray();
 
@@ -60,22 +72,15 @@ namespace ShopEFTask
                     Console.WriteLine($"{customer.LastName} {customer.FirstName}: {customer.Sum} руб.");
                 }
 
-                var productsSold = db.OrderProducts
-                                        .GroupBy(x => x.Product)
-                                        .Select(x => new
-                                        {
-                                            x.Key,
-                                            TotalQuantity = x.Select(y => y.Quantity).Sum()
-                                        })
-                                        .ToArray();
-
                 Console.WriteLine();
 
                 Console.WriteLine("Общее количество проданных продуктов в разбивке по категориям:");
+
+                var productsSoldDictionary = productsSold.ToDictionary(x => x.Key, x => x.TotalQuantity);
                 foreach (var category in db.Categories.Include(c => c.Products))
                 {
                     Console.Write($"{category.Name}: ");
-                    var productsSoldTotal = category.Products.Sum(product => productsSold.FirstOrDefault(p => p.Key == product).TotalQuantity);
+                    var productsSoldTotal = category.Products.Sum(product => productsSoldDictionary[product]);
                     Console.WriteLine(productsSoldTotal);
                 }
             }
