@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using ShopEFTask.Migrations;
 
 namespace ShopEFTask
 {
@@ -8,13 +9,17 @@ namespace ShopEFTask
     {
         public static void Main(string[] args)
         {
-            Database.SetInitializer(new MyDbInitializer());
+            //Database.SetInitializer(new MyDbInitializer());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ShopContext, Configuration>());
 
             using (var db = new ShopContext())
             {
                 // редактирование
                 var productToChange = db.Products.FirstOrDefault(x => x.Name == "Роял Канин для котиков, 2 кг");
-                productToChange.Name = "Роял Канин для котов и кошек, 2 кг";
+                if (productToChange != null)
+                {
+                    productToChange.Name = "Роял Канин для котов и кошек, 2 кг";
+                }
                 db.SaveChanges();
 
                 //// удаление

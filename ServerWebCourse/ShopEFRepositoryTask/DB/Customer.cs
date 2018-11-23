@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShopEFTask
+namespace ShopEFRepositoryTask
 {
     public class Customer
     {

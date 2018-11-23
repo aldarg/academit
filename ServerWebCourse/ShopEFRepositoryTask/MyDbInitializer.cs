@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace ShopEFTask
+namespace ShopEFRepositoryTask
 {
     internal class MyDbInitializer : DropCreateDatabaseAlways<ShopContext>
     {

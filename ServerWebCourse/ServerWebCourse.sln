@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionsTask", "Transac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopEFTask", "ShopEFTask\ShopEFTask.csproj", "{4968F046-6E95-4FED-8F40-9D625A22983D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopEFRepositoryTask", "ShopEFRepositoryTask\ShopEFRepositoryTask.csproj", "{102E1CE0-E704-49F7-A45A-F5D45FA5E51B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{4968F046-6E95-4FED-8F40-9D625A22983D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4968F046-6E95-4FED-8F40-9D625A22983D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4968F046-6E95-4FED-8F40-9D625A22983D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{102E1CE0-E704-49F7-A45A-F5D45FA5E51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{102E1CE0-E704-49F7-A45A-F5D45FA5E51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{102E1CE0-E704-49F7-A45A-F5D45FA5E51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{102E1CE0-E704-49F7-A45A-F5D45FA5E51B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
