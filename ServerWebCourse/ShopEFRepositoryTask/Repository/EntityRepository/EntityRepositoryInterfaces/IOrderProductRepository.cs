@@ -1,9 +1,11 @@
-﻿namespace ShopEFRepositoryTask
+﻿using System.Collections.Generic;
+
+namespace ShopEFRepositoryTask
 {
     internal interface IOrderProductRepository : IRepository<OrderProduct>
     {
-        Product[] GetTopSalesProducts();
-        dynamic GetSalesPerCustomer();
-        dynamic GetSalesPerCategory();
+        IEnumerable<Product> GetTopSalesProducts();
+        Dictionary<Customer, int> GetSalesPerCustomer();
+        Dictionary<Category, int> GetSalesPerCategory();
     }
 }

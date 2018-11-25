@@ -10,7 +10,7 @@ namespace ShopEFRepositoryTask
         {
         }
 
-        public Product[] GetTopSalesProducts()
+        public IEnumerable<Product> GetTopSalesProducts()
         {
             var productsSold = _dbSet
                 .GroupBy(x => x.Product)
@@ -30,24 +30,23 @@ namespace ShopEFRepositoryTask
             return result;
         }
 
-        public dynamic GetSalesPerCustomer()
+        public Dictionary<Customer, int> GetSalesPerCustomer()
         {
             var result = _dbSet
                 .GroupBy(x => x.Order.Customer)
                 .Select(x => new
                     {
-                        x.Key.LastName,
-                        x.Key.FirstName,
+                        Customer = x.Key,
                         Sum = x.Sum(y => y.Quantity * y.Product.Price)
                     })
-                .ToArray();
+                .ToDictionary(x => x.Customer, x => x.Sum);
 
             return result;
         }
 
-        public dynamic GetSalesPerCategory()
+        public Dictionary<Product, int> GetProductSalesQuantitive()
         {
-            var productsSoldDictionary = _dbSet
+            var result = _dbSet
                 .GroupBy(x => x.Product)
                 .Select(x => new
                 {
@@ -56,14 +55,19 @@ namespace ShopEFRepositoryTask
                 })
                 .ToDictionary(x => x.Key, x => x.TotalQuantity);
 
-            var categories = _db.Set<Category>();
+            return result;
+        }
 
-            var result = new List<dynamic>();
+        public Dictionary<Category, int> GetSalesPerCategory()
+        {
+            var categories = _db.Set<Category>();
+            var sales = GetProductSalesQuantitive();
+
+            var result = new Dictionary<Category, int>();
             foreach (var category in categories.Include(c => c.Products))
             {
-                var sum = category.Products.Sum(product => productsSoldDictionary[product]);
-                var item = new {Category = category, QuantitySold = sum};
-                result.Add(item);
+                var sum = category.Products.Sum(product => sales[product]);
+                result.Add(category, sum);
             }
 
             return result;

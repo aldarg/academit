@@ -14,6 +14,8 @@ namespace ShopEFRepositoryTask
             {
                 var productRepo = uow.GetRepository<IProductRepository>();
                 var orderProductRepo = uow.GetRepository<IOrderProductRepository>();
+                var customerRepo = uow.GetRepository<ICustomerRepository>();
+                var categoryRepo = uow.GetRepository<ICategoryRepository>();
 
                 var productToChange = productRepo.GetByName("Роял Канин для котиков, 2 кг");
                 if (productToChange != null)
@@ -35,15 +37,15 @@ namespace ShopEFRepositoryTask
                 }
 
                 Console.WriteLine("Сумма заказов покупателей:");
-                foreach (var customer in orderProductRepo.GetSalesPerCustomer())
+                foreach (var item in orderProductRepo.GetSalesPerCustomer())
                 {
-                    Console.WriteLine($"{customer.LastName} {customer.FirstName}: {customer.Sum} руб.");
+                    Console.WriteLine($"{item.Key.FirstName} {item.Key.LastName}: {item.Value} руб.");
                 }
 
                 Console.WriteLine("Общее количество проданных продуктов в разбивке по категориям:");
                 foreach (var item in orderProductRepo.GetSalesPerCategory())
                 {
-                    Console.WriteLine($"{item.Category.Name}: {item.QuantitySold}");
+                    Console.WriteLine($"{item.Key.Name}: {item.Value}");
                 }
             }
         }
